@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 
 import {spawnSync} from 'node:child_process';
-import process from 'node:process';
+import fs from 'node:fs';
 
 try {
   const {payload: {repository}, sha } = github.context
@@ -14,9 +14,17 @@ try {
     throw clone.error;
   }
 
+  const path = `/home/v8tenko/v8tenko.tech/${sha}`;
+
+  if (fs.existsSync(path)) {
+    fs.rmSync(path)
+  }
+
+  fs.mkdirSync(path)
+
   console.log(clone.output.toString());
 
-  const build = spawnSync('node', [`./yfm-docs/build/index.js`, '-i', 'project', '-o', 'doc'])
+  const build = spawnSync('node', [`./yfm-docs/build/index.js`, '-i', 'project', '-o', path])
 
   if (build.error) {
     // @todo handle problem with gh pr
@@ -24,9 +32,6 @@ try {
   }
 
   console.log(build.output.toString())
-
-  spawnSync('mkdir', [`/home/v8tenko/v8tenko.tech/${sha}`])
-  spawnSync('mv', ['doc', `/home/v8tenko/${sha}`])
 } catch (error: any) {
   core.setFailed(error.message);
 }
