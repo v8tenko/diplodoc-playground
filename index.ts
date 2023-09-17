@@ -1,8 +1,8 @@
-import core from '@actions/core';
-import github from '@actions/github';
+import * as core from '@actions/core';
+import * as github from '@actions/github';
 
 try {
-  console.log('running on', github.context.ref, github.context.payload)
+  console.log('running on',JSON.stringify(github.context, null, 2))
   const nameToGreet = core.getInput('who-to-greet');
   console.log(`Hello ${nameToGreet}!`);
   const time = (new Date()).toTimeString();
@@ -11,5 +11,6 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
 } catch (error: any) {
+  console.log(error)
   core.setFailed(error.message);
 }

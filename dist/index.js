@@ -2092,7 +2092,7 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
-    function getInput(name, options) {
+    function getInput2(name, options) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -2102,9 +2102,9 @@ var require_core = __commonJS({
       }
       return val.trim();
     }
-    exports.getInput = getInput;
+    exports.getInput = getInput2;
     function getMultilineInput(name, options) {
-      const inputs = getInput(name, options).split("\n").filter((x) => x !== "");
+      const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
       if (options && options.trimWhitespace === false) {
         return inputs;
       }
@@ -2114,7 +2114,7 @@ var require_core = __commonJS({
     function getBooleanInput(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput(name, options);
+      const val = getInput2(name, options);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
@@ -2123,7 +2123,7 @@ var require_core = __commonJS({
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.getBooleanInput = getBooleanInput;
-    function setOutput(name, value) {
+    function setOutput2(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
         return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name, value));
@@ -2131,16 +2131,16 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       process.stdout.write(os.EOL);
       command_1.issueCommand("set-output", { name }, utils_1.toCommandValue(value));
     }
-    exports.setOutput = setOutput;
+    exports.setOutput = setOutput2;
     function setCommandEcho(enabled) {
       command_1.issue("echo", enabled ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed(message) {
+    function setFailed2(message) {
       process.exitCode = ExitCode.Failure;
       error(message);
     }
-    exports.setFailed = setFailed;
+    exports.setFailed = setFailed2;
     function isDebug() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
@@ -2648,8 +2648,8 @@ var require_dist_node2 = __commonJS({
     function isKeyOperator(operator) {
       return operator === ";" || operator === "&" || operator === "?";
     }
-    function getValues(context, operator, key, modifier) {
-      var value = context[key], result = [];
+    function getValues(context2, operator, key, modifier) {
+      var value = context2[key], result = [];
       if (isDefined(value) && value !== "") {
         if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
           value = value.toString();
@@ -2709,7 +2709,7 @@ var require_dist_node2 = __commonJS({
         expand: expand.bind(null, template)
       };
     }
-    function expand(template, context) {
+    function expand(template, context2) {
       var operators = ["+", "#", ".", "/", ";", "?", "&"];
       return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function(_, expression, literal) {
         if (expression) {
@@ -2721,7 +2721,7 @@ var require_dist_node2 = __commonJS({
           }
           expression.split(/,/g).forEach(function(variable) {
             var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
-            values.push(getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+            values.push(getValues(context2, operator, tmp[1], tmp[2] || tmp[3]));
           });
           if (operator && operator !== "+") {
             var separator = ",";
@@ -7779,18 +7779,19 @@ var require_github = __commonJS({
 });
 
 // index.ts
-var import_core = __toESM(require_core());
-var import_github = __toESM(require_github());
+var core = __toESM(require_core());
+var github = __toESM(require_github());
 try {
-  console.log("running on", import_github.default.context.ref);
-  const nameToGreet = import_core.default.getInput("who-to-greet");
+  console.log("running on", github.context.ref, github.context.payload);
+  const nameToGreet = core.getInput("who-to-greet");
   console.log(`Hello ${nameToGreet}!`);
   const time = (/* @__PURE__ */ new Date()).toTimeString();
-  import_core.default.setOutput("time", time);
-  const payload = JSON.stringify(import_github.default.context.payload, void 0, 2);
+  core.setOutput("time", time);
+  const payload = JSON.stringify(github.context.payload, void 0, 2);
   console.log(`The event payload: ${payload}`);
 } catch (error) {
-  import_core.default.setFailed(error.message);
+  console.log(error);
+  core.setFailed(error.message);
 }
 /*! Bundled license information:
 
