@@ -4,6 +4,8 @@ import * as github from '@actions/github';
 import {spawnSync} from 'node:child_process';
 import fs from 'node:fs';
 
+import 'dotenv/config'
+
 try {
   const {payload: {repository}, sha } = github.context
 
@@ -31,7 +33,17 @@ try {
     core.setFailed(build.error);
   }
 
+  const octakit = github.getOctokit(process.env.GH_TOKEN!);
+  
+  octakit.rest.issues.createComment({
+    ...github.context.issue,
+    issue_number: github.context.issue.number,
+    body: 'ping'
+  })
+
   console.log(build.output.toString())
+
+  
 } catch (error: any) {
   core.setFailed(error.message);
 }
