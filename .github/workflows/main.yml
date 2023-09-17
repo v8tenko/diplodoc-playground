@@ -9,9 +9,14 @@ on:
 jobs:
   verify_files:
     name: Verify Files
-    runs-on: self-hosted
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: create env file
+        run: |
+          touch .env
+          echo ENGINE_API_KEY=${{ secrets.ENGINE_API_KEY }} >> .env
       - uses: actions/setup-node@v3
         with:
           node-version: 14
@@ -19,7 +24,4 @@ jobs:
       - run: bash prepare.bash
       - run: npm i
       - run: npm run build
-      - name: Build doc
-        with:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npm run start
+      - run: npm run start
