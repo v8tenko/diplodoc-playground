@@ -8,7 +8,7 @@ try {
   const {payload: {repository}, sha } = github.context
 
   // @ts-ignore
-  const process = spawn('bash run.bash', [repository!.name, repository.clone_url, sha])
+  const process = spawn('bash', ['run.bash', repository!.name, repository.clone_url, sha])
 
   process.on('error', (error) => {
     throw error;
