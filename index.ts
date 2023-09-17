@@ -7,16 +7,15 @@ import process from 'node:process';
 try {
   const {payload: {repository}, sha } = github.context
 
-  // @ts-ignore
-  // const clone = spawnSync('bash', ['run.bash', repository!.name, repository.clone_url, sha])
+  //@ts-ignore
+  const clone = spawnSync('bash', ['run.bash', repository!.name, repository.clone_url, sha])
 
-  // if (clone.error) {
-  //   throw clone.error;
-  // }
+  if (clone.error) {
+    throw clone.error;
+  }
 
-  // console.log(clone.output.toString());
+  console.log(clone.output.toString());
 
-  console.log(spawnSync('ls', ['./yfm-docs']).output.toString())
   const build = spawnSync('node', [`./yfm-docs/build/index.js`, '-i', 'project', '-o', 'doc'])
 
   if (build.error) {
@@ -25,6 +24,9 @@ try {
   }
 
   console.log(build.output.toString())
+
+  spawnSync('mkdir', [`/home/v8tenko/v8tenko.tech/${sha}`])
+  spawnSync('mv', ['doc', `/home/v8tenko/${sha}`])
 } catch (error: any) {
   core.setFailed(error.message);
 }
