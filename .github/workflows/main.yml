@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      # - run: bash prepare.bash
+      - run: bash prepare.bash
       - run: npm i
       - run: npm run build
       - run: npm run start
