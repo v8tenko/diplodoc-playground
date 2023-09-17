@@ -16,7 +16,7 @@ try {
 
   // console.log(clone.output.toString());
 
-  console.log(process.cwd());
+  console.log(spawnSync('ls').output.toString())
   const build = spawnSync('node', [`./yfm-docs/build/index.js`, '-i', 'project', '-o', 'doc'])
 
   if (build.error) {
