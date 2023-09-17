@@ -32,7 +32,7 @@ try {
     core.setFailed(build.error);
   }
 
-  const octakit = github.getOctokit(process.env.GH_TOKEN!);
+  const octakit = github.getOctokit(core.getInput('GH_TOKEN'));
   
   octakit.rest.issues.createComment({
     ...github.context.issue,

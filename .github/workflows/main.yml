@@ -19,4 +19,7 @@ jobs:
       - run: bash prepare.bash
       - run: npm i
       - run: npm run build
-      - run: npm run start
+      - name: Build doc
+        with:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run start
