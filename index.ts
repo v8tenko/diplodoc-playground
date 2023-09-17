@@ -27,7 +27,6 @@ try {
     fs.rmSync(path)
   }
 
-  fs.mkdirSync(path)
   console.log(clone.output.toString());
 
   const build = spawnSync('node', [`./yfm-docs/build/index.js`, '-i', 'project', '-o', path])
@@ -64,7 +63,7 @@ try {
   })
 
   console.log(build.output.toString())
-  
+
 } catch (error: any) {
   core.setFailed(error.message);
 }
