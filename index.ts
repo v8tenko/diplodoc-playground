@@ -6,6 +6,11 @@ import fs from 'node:fs';
 
 import 'dotenv/config'
 
+const HOST = 'https://v8tenko.tech/diplodoc'
+const deployMessage = (commit: string) => {
+  return `Deployed to ${HOST}/${commit}`
+}
+
 try {
   const {payload: {repository}, sha } = github.context
 
@@ -16,7 +21,7 @@ try {
     throw clone.error;
   }
 
-  const path = `/home/v8tenko/v8tenko.tech/${sha}`;
+  const path = `/home/v8tenko/v8tenko.tech/diplodoc/${sha}`;
 
   if (fs.existsSync(path)) {
     fs.rmSync(path)
@@ -33,14 +38,33 @@ try {
   }
 
   const octakit = github.getOctokit(process.env.GH_TOKEN!);
-  
-  octakit.rest.issues.createComment({
+  octakit.rest.issues.listComments({
     ...github.context.issue,
-    issue_number: github.context.issue.number,
-    body: 'ping'
+    issue_number: github.context.issue.number
+  }).then((comments) => {
+    const exsistsComment = comments.data.find((comment) => comment.body?.startsWith(deployMessage('')))
+
+    if (!exsistsComment) {
+      octakit.rest.issues.createComment({
+        ...github.context.issue,
+        issue_number: github.context.issue.number,
+        body: deployMessage(sha)
+      })
+
+      return;
+    }
+
+    octakit.rest.issues.updateComment({
+      ...github.context.issue,
+          issue_number: github.context.issue.number,
+      comment_id: exsistsComment.id!,
+      body: deployMessage(sha)
+    })
+
   })
 
   console.log(build.output.toString())
+  
 } catch (error: any) {
   core.setFailed(error.message);
 }
