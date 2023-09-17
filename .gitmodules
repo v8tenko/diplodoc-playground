@@ -1,0 +1,9 @@
+[submodule "openapi-extension"]
+	path = openapi-extension
+	url = https://github.com/diplodoc-platform/openapi-extension.git
+[submodule "client"]
+	path = client
+	url = https://github.com/diplodoc-platform/client.git
+[submodule "yfm-docs"]
+	path = yfm-docs
+	url = https://github.com/yandex-cloud/yfm-docs.git

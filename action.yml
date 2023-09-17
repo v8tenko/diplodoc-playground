@@ -1,0 +1,13 @@
+name: 'Diplodoc build action'
+description: 'Greet someone and record the time'
+inputs:
+  path: 
+    description: 'Path to doc to build'
+    required: false
+    default: 'sample'
+outputs:
+  errors:
+    description: 'Build error'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
