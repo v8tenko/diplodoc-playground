@@ -13,6 +13,8 @@ try {
   if (process.error) {
     throw process.error;
   }
+
+  console.log(process.stdout.toString());
 } catch (error: any) {
   core.setFailed(error.message);
 }
