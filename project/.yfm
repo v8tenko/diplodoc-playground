@@ -1,0 +1,7 @@
+strict: true
+allowHTML: true
+
+embed:
+  - host: viewer.ydocs.me
+  - host: kornilovyv.partner.market.node.logrus01vd.yandex.ru
+  - host: "*.market.yandex.ru"
