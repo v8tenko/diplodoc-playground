@@ -30,7 +30,7 @@ export const deployDoc = async (sha: string) => {
     await io.rmRF(deployDir);
     await io.mkdirP(deployDir);
     
-    await io.mv(docPath, deployDir);
+    await io.mv(docPath, nginx.folder);
 
     return deployLink;
 }

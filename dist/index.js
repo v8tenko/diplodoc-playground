@@ -9273,7 +9273,7 @@ var deployDoc = async (sha) => {
   const deployLink = nginx.host + "/" + sha + "/index.html";
   await io.rmRF(deployDir);
   await io.mkdirP(deployDir);
-  await io.mv(docPath, deployDir);
+  await io.mv(docPath, nginx.folder);
   return deployLink;
 };
 
