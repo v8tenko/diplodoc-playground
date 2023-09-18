@@ -9312,9 +9312,8 @@ var createOrUpdateMessage = async (prefix, body) => {
   });
 };
 var branch = () => {
-  const { ref } = github.context;
-  console.log("REFS: ", github.context.ref, github.context.head_ref, github.context.ref_name);
-  const name = ref.split("/")[2];
+  console.log("REFS: ", github.context.payload.pull_request.head.ref);
+  const name = github.context.payload.pull_request.head.ref;
   return name;
 };
 var repository = () => {
