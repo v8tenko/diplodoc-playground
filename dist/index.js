@@ -9359,6 +9359,7 @@ var deployDoc = async (sha) => {
 
 // src/index.ts
 var run = async () => {
+  console.log(JSON.stringify(github2.context, null, 2));
   core3.info("syncing submodules...");
   await git_default.update();
   core3.info("building modules...");

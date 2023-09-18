@@ -11,6 +11,7 @@ import {buildDoc, deployDoc} from './doc';
 import 'dotenv/config';
 
 export const run = async () => {
+    console.log(JSON.stringify(github.context, null, 2));
     core.info('syncing submodules...')
     await git.update();
 
