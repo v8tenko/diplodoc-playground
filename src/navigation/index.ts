@@ -1,5 +1,5 @@
 import {path} from './path';
-import {Module, submodules, sampleDoc, nginx} from './constants';
+import {Module, submodules, doc, nginx} from './constants';
 
-export {path, Module, submodules, sampleDoc, nginx};
-export default {path, list: submodules, sampleDoc, nginx};
+export {path, Module, submodules, doc, nginx};
+export default {path, list: submodules, doc, nginx};

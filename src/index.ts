@@ -20,13 +20,13 @@ export const run = async () => {
         return npm.build(module);
     }))
 
-    core.info('running yfm-docs...');
-    await buildDoc({});
-
-    core.info('deploying to nginx...')
     const {sha} = github.context;
 
-    const link = await deployDoc(navigation.sampleDoc.output, sha);
+    core.info('running yfm-docs...');
+    await buildDoc(sha);
+
+    core.info('deploying to nginx...')
+    const link = await deployDoc(sha);
 
     createOrUpdateMessage('Deployed to', `Deployed to ${link}`)
 }

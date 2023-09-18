@@ -9184,7 +9184,7 @@ var import_node_process = __toESM(require("node:process"));
 var import_node_path = __toESM(require("node:path"));
 var submodules = ["openapi-extension", "client", "yfm-docs"];
 var baseUrl = import_node_process.default.cwd();
-var sampleDoc = {
+var doc = {
   input: import_node_path.default.join(baseUrl, "project"),
   output: import_node_path.default.join(baseUrl, "project-output")
 };
@@ -9211,7 +9211,7 @@ var path2 = (module2) => {
 };
 
 // src/navigation/index.ts
-var navigation_default = { path: path2, list: submodules, sampleDoc, nginx };
+var navigation_default = { path: path2, list: submodules, doc, nginx };
 
 // src/npm/install.ts
 var install = (module2) => {
@@ -9259,19 +9259,21 @@ var createOrUpdateMessage = async (prefix, body) => {
 var import_node_path2 = __toESM(require("node:path"));
 var exec7 = __toESM(require_exec());
 var io = __toESM(require_io());
-var buildDoc = async ({ input = sampleDoc.input, output = sampleDoc.output }) => {
+var buildDoc = async (sha, input = doc.input) => {
   const pathToBuilder = navigation_default.path("yfm-docs");
   const excecutable = import_node_path2.default.join(pathToBuilder, "build", "index.js");
+  const output = import_node_path2.default.join(doc.output, sha);
   await io.rmRF(output);
   await io.mkdirP(output);
   return exec7.exec(`node ${excecutable}`, ["-i", input, "-o", output]);
 };
-var deployDoc = async (docPath, sha) => {
+var deployDoc = async (sha) => {
+  const docPath = import_node_path2.default.join(doc.output, sha);
   const deployDir = import_node_path2.default.join(nginx.folder, sha);
   const deployLink = nginx.host + "/" + sha + "/index.html";
   await io.rmRF(deployDir);
   await io.mkdirP(deployDir);
-  await io.mv(`${docPath}/*`, deployDir);
+  await io.mv(docPath, deployDir);
   return deployLink;
 };
 
@@ -9295,11 +9297,11 @@ var run = async () => {
     await npm_default.install(module2);
     return npm_default.build(module2);
   }));
-  core.info("running yfm-docs...");
-  await buildDoc({});
-  core.info("deploying to nginx...");
   const { sha } = github2.context;
-  const link = await deployDoc(navigation_default.sampleDoc.output, sha);
+  core.info("running yfm-docs...");
+  await buildDoc(sha);
+  core.info("deploying to nginx...");
+  const link = await deployDoc(sha);
   createOrUpdateMessage("Deployed to", `Deployed to ${link}`);
 };
 
