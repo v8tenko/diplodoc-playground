@@ -1,6 +1,7 @@
 import * as github from '@actions/github';
 
 import { Context } from "@actions/github/lib/context";
+import { submodules } from '../navigation';
 
 type Octokit = ReturnType<typeof github.getOctokit>
 
@@ -31,4 +32,19 @@ export const createOrUpdateMessage = async (prefix: string, body: string) => {
         })
     
       })
+}
+
+export const repository = () => {
+  return 'openapi-extension';
+
+  const {repository} = github.context.payload;
+  const name = repository!.full_name!.split('/')[1];
+
+  return name;
+}
+
+export const isDevRepository = () => {
+    const name = repository();
+
+    return submodules.includes(name as any);
 }

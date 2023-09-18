@@ -3,6 +3,11 @@ import path from 'node:path';
 
 export const submodules = ['openapi-extension', 'client', 'yfm-docs'] as const;
 export type Module = typeof submodules[number];
+export const packages: Record<Module, string> = {
+    "openapi-extension": '@diplodoc/openapi-extension',
+    "yfm-docs": '@doc-tools/docs',
+    client: '@diplodoc/client'
+}
 
 export const baseUrl = process.cwd();
 export const doc = {

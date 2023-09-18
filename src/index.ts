@@ -3,8 +3,9 @@ import * as github from '@actions/github';
 
 import git from './git';
 import npm from './npm';
-import navigation from './navigation';
-import {createOrUpdateMessage} from './github';
+import navigation, {Module} from './navigation';
+import pr from './pr';
+
 import {buildDoc, deployDoc} from './doc';
 
 import 'dotenv/config';
@@ -14,11 +15,22 @@ export const run = async () => {
     await git.update();
 
     core.info('building modules...')
-    await Promise.all(navigation.list.map(async (module) => {
-        await npm.install(module);
+    await Promise.all(navigation.list.map(npm.install));
 
+    if (pr.isDevRepository()) {
+        const module = pr.repository() as Module;
+
+        git.checkout(module, 'coloring');
+        
+        await npm.install(module);
+        await npm.link(module);
+    }
+
+    await Promise.all(navigation.list.map(async (module) => {
+        await npm.linkDevModule(module);
+        
         return npm.build(module);
-    }))
+    }));
 
     const {sha} = github.context;
 
@@ -28,5 +40,5 @@ export const run = async () => {
     core.info('deploying to nginx...')
     const link = await deployDoc(sha);
 
-    createOrUpdateMessage('Deployed to', `Deployed to ${link}`)
+    pr.createOrUpdateMessage('Deployed to', `Deployed to ${link}`)
 }
