@@ -9313,6 +9313,7 @@ var createOrUpdateMessage = async (prefix, body) => {
 };
 var branch = () => {
   const { ref } = github.context;
+  console.log("REFS: ", github.context.ref, github.context.head_ref, github.context.ref_name);
   const name = ref.split("/")[2];
   return name;
 };
@@ -9364,7 +9365,6 @@ var deployDoc = async (sha) => {
 
 // src/index.ts
 var run = async () => {
-  console.log(JSON.stringify(github2.context, null, 2));
   core4.info("syncing submodules...");
   await git_default.update();
   core4.info("prepraring modules...");

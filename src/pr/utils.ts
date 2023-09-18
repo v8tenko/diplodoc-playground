@@ -38,6 +38,9 @@ export const createOrUpdateMessage = async (prefix: string, body: string) => {
 
 export const branch = () => {
   const {ref} = github.context;
+  
+  console.log('REFS: ', github.context.ref, github.context.head_ref, github.context.ref_name)
+
   const name = ref.split('/')[2];
 
   return name;
