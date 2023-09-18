@@ -1,8 +1,8 @@
 import * as exec from '@actions/exec';
-import submodules, { Module } from '../submodule';
+import submodules, { Module } from '../navigation';
 
 export const build = (module: Module): Promise<number> => {
-    submodules.open(module);
+    const pathToModule = submodules.path(module);
 
-    return exec.exec('npm run build')
+    return exec.exec('npm run build', [], {cwd: pathToModule})
 }

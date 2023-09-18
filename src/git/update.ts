@@ -1,11 +1,11 @@
 import * as exec from '@actions/exec';
 
-import process from 'node:process';
+import { spawnSync } from 'node:child_process';
 
-import { baseUrl } from './constants';
+import { baseUrl } from '../navigation/constants';
 
 export const update = async () => {
-    exec.exec(`cd ${baseUrl}`);
+    spawnSync(`cd ${baseUrl}`);
 
     return exec.exec('git submodule update --init --recursive');
 }

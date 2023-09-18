@@ -5,7 +5,7 @@ import {spawnSync} from 'node:child_process';
 import fs from 'node:fs';
 
 import 'dotenv/config'
-import { open } from './src/submodule/open';
+import { path } from './src/navigation/path';
 import client from './yfm-docs/scripts/client';
 
 const HOST = 'https://v8tenko.tech/diplodoc'
@@ -14,7 +14,6 @@ const deployMessage = (commit: string, entry: string) => {
 }
 
 try {
-  open('client').then(console.log)
   const {payload: {repository}, sha } = github.context
 
   //@ts-ignore
@@ -40,30 +39,7 @@ try {
   }
 
   const octakit = github.getOctokit(process.env.GH_TOKEN!);
-  octakit.rest.issues.listComments({
-    ...github.context.issue,
-    issue_number: github.context.issue.number
-  }).then((comments) => {
-    const exsistsComment = comments.data.find((comment) => comment.body?.startsWith(deployMessage('', '')))
-
-    if (!exsistsComment) {
-      octakit.rest.issues.createComment({
-        ...github.context.issue,
-        issue_number: github.context.issue.number,
-        body: deployMessage(sha, 'index.html')
-      })
-
-      return;
-    }
-
-    octakit.rest.issues.updateComment({
-      ...github.context.issue,
-          issue_number: github.context.issue.number,
-      comment_id: exsistsComment.id!,
-      body: deployMessage(sha, 'index.html')
-    })
-
-  })
+ 
 
   console.log(build.output.toString())
 
