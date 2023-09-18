@@ -1,0 +1,10 @@
+title: Sample doc project
+href: index.md
+items:
+  - name: openapi
+    include:
+      path: openapi
+      includers:
+        - name: openapi
+          input: openapi.yaml
+      mode: link
