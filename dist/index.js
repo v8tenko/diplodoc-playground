@@ -9257,7 +9257,9 @@ var link = (module2) => {
     return Promise.resolve(0);
   }
   const pathToModule = navigation_default.path(module2);
-  linked.name = navigation_default.packages[module2];
+  if (!linked.name) {
+    linked.name = navigation_default.packages[module2];
+  }
   linked[module2] = true;
   return exec7.exec(`npm link`, [], { cwd: pathToModule });
 };
@@ -9389,8 +9391,10 @@ var run = async () => {
     core4.info(`linking ${module2} module...`);
     await npm_default.linkDevModule(module2);
   }
-  core4.info("builings modules...");
-  await Promise.all(navigation_default.list.map(npm_default.build));
+  for (const module2 of navigation_default.list) {
+    core4.info(`building ${module2} module...`);
+    await npm_default.build(module2);
+  }
   const { sha } = github2.context;
   core4.info("running yfm-docs...");
   await buildDoc(sha);

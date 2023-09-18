@@ -22,7 +22,10 @@ export const link = (module: Module): Promise<number> => {
 
     const pathToModule = submodules.path(module);
 
-    linked.name = navigation.packages[module];
+    if (!linked.name) {
+        linked.name = navigation.packages[module];
+    }
+
     linked[module] = true;
 
     return exec.exec(`npm link`, [], { cwd: pathToModule });

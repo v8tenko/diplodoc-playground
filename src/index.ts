@@ -33,8 +33,11 @@ export const run = async () => {
         await npm.linkDevModule(module);
     }
 
-    core.info('builings modules...')
-    await Promise.all(navigation.list.map(npm.build));
+    for (const module of navigation.list) {
+        core.info(`building ${module} module...`)
+
+        await npm.build(module);
+    }
 
     const {sha} = github.context;
 
