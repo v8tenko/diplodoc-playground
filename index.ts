@@ -7,8 +7,8 @@ import fs from 'node:fs';
 import 'dotenv/config'
 
 const HOST = 'https://v8tenko.tech/diplodoc'
-const deployMessage = (commit: string) => {
-  return `Deployed to ${HOST}/${commit}`
+const deployMessage = (commit: string, entry: string) => {
+  return `Deployed to ${HOST}/${commit}${entry ? '/' + entry : ''}`
 }
 
 try {
@@ -41,13 +41,13 @@ try {
     ...github.context.issue,
     issue_number: github.context.issue.number
   }).then((comments) => {
-    const exsistsComment = comments.data.find((comment) => comment.body?.startsWith(deployMessage('')))
+    const exsistsComment = comments.data.find((comment) => comment.body?.startsWith(deployMessage('', '')))
 
     if (!exsistsComment) {
       octakit.rest.issues.createComment({
         ...github.context.issue,
         issue_number: github.context.issue.number,
-        body: deployMessage(sha)
+        body: deployMessage(sha, 'index.html')
       })
 
       return;
@@ -57,7 +57,7 @@ try {
       ...github.context.issue,
           issue_number: github.context.issue.number,
       comment_id: exsistsComment.id!,
-      body: deployMessage(sha)
+      body: deployMessage(sha, 'index.html')
     })
 
   })
