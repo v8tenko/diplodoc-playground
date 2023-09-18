@@ -37,8 +37,6 @@ export const createOrUpdateMessage = async (prefix: string, body: string) => {
 }
 
 export const branch = () => {
-  console.log('REFS: ', github.context.payload.pull_request.head.ref);
-
   // @ts-ignore @todo inspect
   const name = github.context.payload.pull_request.head.ref
 

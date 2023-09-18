@@ -24,6 +24,7 @@ export const run = async () => {
         git.checkout(module, branch);
         
         await npm.install(module);
+        await npm.link(module);
     }
 
     for (const module of navigation.list) {

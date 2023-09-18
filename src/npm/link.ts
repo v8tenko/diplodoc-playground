@@ -9,16 +9,31 @@ import navigation from '../navigation';
 
 type LinkModule = {
     name: string | null
-}
+} & Partial<Record<Module, true>>
 
 export let linked: LinkModule = {
     name: null
 }
 
-export const link = (module: Module, target: string = ''): Promise<number> => {
+export const link = (module: Module): Promise<number> => {
+    if (linked[module]) {
+        return Promise.resolve(0);
+    }
+
     const pathToModule = submodules.path(module);
 
     linked.name = navigation.packages[module];
+    linked[module] = true;
+
+    return exec.exec(`npm link`, [], { cwd: pathToModule });
+}
+
+const linkTarget = (module: Module, target: string): Promise<number> => {
+    const pathToModule = submodules.path(module);
+
+    if (!linked[target]) {
+        core.error(`unable to link ${target}: ${target} did not link yet`);
+    }
 
     return exec.exec(`npm link ${target}`, [], { cwd: pathToModule });
 }
@@ -49,7 +64,7 @@ export const linkDevModule = async (module: Module) => {
             return Promise.resolve(0);
         }
 
-        return link(module, navigation.packages[deps]);
+        return linkTarget(module, navigation.packages[deps]);
     }));
 
 }
