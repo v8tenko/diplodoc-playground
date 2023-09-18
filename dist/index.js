@@ -1980,7 +1980,7 @@ var require_path_utils = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = void 0;
-    var path5 = __importStar(require("path"));
+    var path4 = __importStar(require("path"));
     function toPosixPath(pth) {
       return pth.replace(/[\\]/g, "/");
     }
@@ -1990,7 +1990,7 @@ var require_path_utils = __commonJS({
     }
     exports.toWin32Path = toWin32Path;
     function toPlatformPath(pth) {
-      return pth.replace(/[/\\]/g, path5.sep);
+      return pth.replace(/[/\\]/g, path4.sep);
     }
     exports.toPlatformPath = toPlatformPath;
   }
@@ -2061,7 +2061,7 @@ var require_core = __commonJS({
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
     var os = __importStar(require("os"));
-    var path5 = __importStar(require("path"));
+    var path4 = __importStar(require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
     (function(ExitCode2) {
@@ -2089,7 +2089,7 @@ var require_core = __commonJS({
       } else {
         command_1.issueCommand("add-path", {}, inputPath);
       }
-      process.env["PATH"] = `${inputPath}${path5.delimiter}${process.env["PATH"]}`;
+      process.env["PATH"] = `${inputPath}${path4.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
     function getInput(name, options) {
@@ -2244,8 +2244,8 @@ var require_context = __commonJS({
           if (fs_1.existsSync(process.env.GITHUB_EVENT_PATH)) {
             this.payload = JSON.parse(fs_1.readFileSync(process.env.GITHUB_EVENT_PATH, { encoding: "utf8" }));
           } else {
-            const path5 = process.env.GITHUB_EVENT_PATH;
-            process.stdout.write(`GITHUB_EVENT_PATH ${path5} does not exist${os_1.EOL}`);
+            const path4 = process.env.GITHUB_EVENT_PATH;
+            process.stdout.write(`GITHUB_EVENT_PATH ${path4} does not exist${os_1.EOL}`);
           }
         }
         this.eventName = process.env.GITHUB_EVENT_NAME;
@@ -2648,8 +2648,8 @@ var require_dist_node2 = __commonJS({
     function isKeyOperator(operator) {
       return operator === ";" || operator === "&" || operator === "?";
     }
-    function getValues(context2, operator, key, modifier) {
-      var value = context2[key], result = [];
+    function getValues(context3, operator, key, modifier) {
+      var value = context3[key], result = [];
       if (isDefined(value) && value !== "") {
         if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
           value = value.toString();
@@ -2709,7 +2709,7 @@ var require_dist_node2 = __commonJS({
         expand: expand.bind(null, template)
       };
     }
-    function expand(template, context2) {
+    function expand(template, context3) {
       var operators = ["+", "#", ".", "/", ";", "?", "&"];
       return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function(_, expression, literal) {
         if (expression) {
@@ -2721,7 +2721,7 @@ var require_dist_node2 = __commonJS({
           }
           expression.split(/,/g).forEach(function(variable) {
             var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
-            values.push(getValues(context2, operator, tmp[1], tmp[2] || tmp[3]));
+            values.push(getValues(context3, operator, tmp[1], tmp[2] || tmp[3]));
           });
           if (operator && operator !== "+") {
             var separator = ",";
@@ -3563,14 +3563,14 @@ var require_url_state_machine = __commonJS({
       return url.replace(/\u0009|\u000A|\u000D/g, "");
     }
     function shortenPath(url) {
-      const path5 = url.path;
-      if (path5.length === 0) {
+      const path4 = url.path;
+      if (path4.length === 0) {
         return;
       }
-      if (url.scheme === "file" && path5.length === 1 && isNormalizedWindowsDriveLetter(path5[0])) {
+      if (url.scheme === "file" && path4.length === 1 && isNormalizedWindowsDriveLetter(path4[0])) {
         return;
       }
-      path5.pop();
+      path4.pop();
     }
     function includesCredentials(url) {
       return url.username !== "" || url.password !== "";
@@ -7770,11 +7770,11 @@ var require_github = __commonJS({
     var Context = __importStar(require_context());
     var utils_1 = require_utils4();
     exports.context = new Context.Context();
-    function getOctokit(token, options, ...additionalPlugins) {
+    function getOctokit2(token, options, ...additionalPlugins) {
       const GitHubWithPlugins = utils_1.GitHub.plugin(...additionalPlugins);
       return new GitHubWithPlugins(utils_1.getOctokitOptions(token, options));
     }
-    exports.getOctokit = getOctokit;
+    exports.getOctokit = getOctokit2;
   }
 });
 
@@ -7841,7 +7841,7 @@ var require_io_util = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
     var fs = __importStar(require("fs"));
-    var path5 = __importStar(require("path"));
+    var path4 = __importStar(require("path"));
     _a = fs.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
     exports.IS_WINDOWS = process.platform === "win32";
     exports.UV_FS_O_EXLOCK = 268435456;
@@ -7890,7 +7890,7 @@ var require_io_util = __commonJS({
         }
         if (stats && stats.isFile()) {
           if (exports.IS_WINDOWS) {
-            const upperExt = path5.extname(filePath).toUpperCase();
+            const upperExt = path4.extname(filePath).toUpperCase();
             if (extensions.some((validExt) => validExt.toUpperCase() === upperExt)) {
               return filePath;
             }
@@ -7914,11 +7914,11 @@ var require_io_util = __commonJS({
           if (stats && stats.isFile()) {
             if (exports.IS_WINDOWS) {
               try {
-                const directory = path5.dirname(filePath);
-                const upperName = path5.basename(filePath).toUpperCase();
+                const directory = path4.dirname(filePath);
+                const upperName = path4.basename(filePath).toUpperCase();
                 for (const actualName of yield exports.readdir(directory)) {
                   if (upperName === actualName.toUpperCase()) {
-                    filePath = path5.join(directory, actualName);
+                    filePath = path4.join(directory, actualName);
                     break;
                   }
                 }
@@ -8018,7 +8018,7 @@ var require_io = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
     var assert_1 = require("assert");
-    var path5 = __importStar(require("path"));
+    var path4 = __importStar(require("path"));
     var ioUtil = __importStar(require_io_util());
     function cp(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
@@ -8027,7 +8027,7 @@ var require_io = __commonJS({
         if (destStat && destStat.isFile() && !force) {
           return;
         }
-        const newDest = destStat && destStat.isDirectory() && copySourceDirectory ? path5.join(dest, path5.basename(source)) : dest;
+        const newDest = destStat && destStat.isDirectory() && copySourceDirectory ? path4.join(dest, path4.basename(source)) : dest;
         if (!(yield ioUtil.exists(source))) {
           throw new Error(`no such file or directory: ${source}`);
         }
@@ -8039,7 +8039,7 @@ var require_io = __commonJS({
             yield cpDirRecursive(source, newDest, 0, force);
           }
         } else {
-          if (path5.relative(source, newDest) === "") {
+          if (path4.relative(source, newDest) === "") {
             throw new Error(`'${newDest}' and '${source}' are the same file`);
           }
           yield copyFile(source, newDest, force);
@@ -8052,23 +8052,23 @@ var require_io = __commonJS({
         if (yield ioUtil.exists(dest)) {
           let destExists = true;
           if (yield ioUtil.isDirectory(dest)) {
-            dest = path5.join(dest, path5.basename(source));
+            dest = path4.join(dest, path4.basename(source));
             destExists = yield ioUtil.exists(dest);
           }
           if (destExists) {
             if (options.force == null || options.force) {
-              yield rmRF3(dest);
+              yield rmRF2(dest);
             } else {
               throw new Error("Destination already exists");
             }
           }
         }
-        yield mkdirP3(path5.dirname(dest));
+        yield mkdirP2(path4.dirname(dest));
         yield ioUtil.rename(source, dest);
       });
     }
     exports.mv = mv2;
-    function rmRF3(inputPath) {
+    function rmRF2(inputPath) {
       return __awaiter(this, void 0, void 0, function* () {
         if (ioUtil.IS_WINDOWS) {
           if (/[*"<>|]/.test(inputPath)) {
@@ -8087,14 +8087,14 @@ var require_io = __commonJS({
         }
       });
     }
-    exports.rmRF = rmRF3;
-    function mkdirP3(fsPath) {
+    exports.rmRF = rmRF2;
+    function mkdirP2(fsPath) {
       return __awaiter(this, void 0, void 0, function* () {
         assert_1.ok(fsPath, "a path argument must be provided");
         yield ioUtil.mkdir(fsPath, { recursive: true });
       });
     }
-    exports.mkdirP = mkdirP3;
+    exports.mkdirP = mkdirP2;
     function which(tool, check) {
       return __awaiter(this, void 0, void 0, function* () {
         if (!tool) {
@@ -8126,7 +8126,7 @@ var require_io = __commonJS({
         }
         const extensions = [];
         if (ioUtil.IS_WINDOWS && process.env["PATHEXT"]) {
-          for (const extension of process.env["PATHEXT"].split(path5.delimiter)) {
+          for (const extension of process.env["PATHEXT"].split(path4.delimiter)) {
             if (extension) {
               extensions.push(extension);
             }
@@ -8139,12 +8139,12 @@ var require_io = __commonJS({
           }
           return [];
         }
-        if (tool.includes(path5.sep)) {
+        if (tool.includes(path4.sep)) {
           return [];
         }
         const directories = [];
         if (process.env.PATH) {
-          for (const p of process.env.PATH.split(path5.delimiter)) {
+          for (const p of process.env.PATH.split(path4.delimiter)) {
             if (p) {
               directories.push(p);
             }
@@ -8152,7 +8152,7 @@ var require_io = __commonJS({
         }
         const matches = [];
         for (const directory of directories) {
-          const filePath = yield ioUtil.tryGetExecutablePath(path5.join(directory, tool), extensions);
+          const filePath = yield ioUtil.tryGetExecutablePath(path4.join(directory, tool), extensions);
           if (filePath) {
             matches.push(filePath);
           }
@@ -8172,7 +8172,7 @@ var require_io = __commonJS({
         if (currentDepth >= 255)
           return;
         currentDepth++;
-        yield mkdirP3(destDir);
+        yield mkdirP2(destDir);
         const files = yield ioUtil.readdir(sourceDir);
         for (const fileName of files) {
           const srcFile = `${sourceDir}/${fileName}`;
@@ -8273,8 +8273,8 @@ var require_toolrunner = __commonJS({
     var os = __importStar(require("os"));
     var events = __importStar(require("events"));
     var child = __importStar(require("child_process"));
-    var path5 = __importStar(require("path"));
-    var io3 = __importStar(require_io());
+    var path4 = __importStar(require("path"));
+    var io2 = __importStar(require_io());
     var ioUtil = __importStar(require_io_util());
     var timers_1 = require("timers");
     var IS_WINDOWS = process.platform === "win32";
@@ -8488,9 +8488,9 @@ var require_toolrunner = __commonJS({
       exec() {
         return __awaiter(this, void 0, void 0, function* () {
           if (!ioUtil.isRooted(this.toolPath) && (this.toolPath.includes("/") || IS_WINDOWS && this.toolPath.includes("\\"))) {
-            this.toolPath = path5.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
+            this.toolPath = path4.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
           }
-          this.toolPath = yield io3.which(this.toolPath, true);
+          this.toolPath = yield io2.which(this.toolPath, true);
           return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             this._debug(`exec tool: ${this.toolPath}`);
             this._debug("arguments:");
@@ -8812,7 +8812,7 @@ var require_exec = __commonJS({
 
 // src/index.ts
 var core = __toESM(require_core());
-var github = __toESM(require_github());
+var github2 = __toESM(require_github());
 
 // src/git/update.ts
 var exec = __toESM(require_exec());
@@ -8865,7 +8865,33 @@ var build = (module2) => {
 // src/npm/index.ts
 var npm_default = { install, build };
 
-// src/buildDoc.ts
+// src/github/utils.ts
+var github = __toESM(require_github());
+var createOrUpdateMessage = async (prefix, body) => {
+  const octakit = github.getOctokit(process.env.GH_TOKEN);
+  octakit.rest.issues.listComments({
+    ...github.context.issue,
+    issue_number: github.context.issue.number
+  }).then((comments) => {
+    const exsistsComment = comments.data.find((comment) => comment.body?.startsWith(prefix));
+    if (!exsistsComment) {
+      octakit.rest.issues.createComment({
+        ...github.context.issue,
+        issue_number: github.context.issue.number,
+        body
+      });
+      return;
+    }
+    octakit.rest.issues.updateComment({
+      ...github.context.issue,
+      issue_number: github.context.issue.number,
+      comment_id: exsistsComment.id,
+      body
+    });
+  });
+};
+
+// src/doc.ts
 var import_node_path2 = __toESM(require("node:path"));
 var exec7 = __toESM(require_exec());
 var io = __toESM(require_io());
@@ -8876,15 +8902,12 @@ var buildDoc = async ({ input = sampleDoc.input, output = sampleDoc.output }) =>
   await io.mkdirP(output);
   return exec7.exec(`node ${excecutable}`, ["-i", input, "-o", output]);
 };
-
-// src/deployDoc.ts
-var io2 = __toESM(require_io());
-var import_node_path3 = __toESM(require("node:path"));
 var deployDoc = async (docPath, sha) => {
-  const deployDir = import_node_path3.default.join(docPath, sha);
-  await io2.rmRF(deployDir);
-  await io2.mkdirP(deployDir);
-  return io2.mv(docPath, deployDir);
+  const deployDir = import_node_path2.default.join(docPath, sha);
+  await io.rmRF(deployDir);
+  await io.mkdirP(deployDir);
+  await io.mv(docPath, deployDir);
+  return import_node_path2.default.join(deployDir, "index.html");
 };
 
 // src/index.ts
@@ -8899,8 +8922,9 @@ var run = async () => {
   core.info("running yfm-docs...");
   await buildDoc({});
   core.info("deploying to nginx...");
-  const { sha } = github.context;
-  await deployDoc(navigation_default.sampleDoc.output, sha);
+  const { sha } = github2.context;
+  const link = await deployDoc(navigation_default.sampleDoc.output, sha);
+  createOrUpdateMessage("Deployed to", `Deployed to ${link}`);
 };
 
 // index.ts

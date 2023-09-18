@@ -19,3 +19,14 @@ export const buildDoc = async ({input = sampleDoc.input, output = sampleDoc.outp
 
     return exec.exec(`node ${excecutable}`, ['-i', input, '-o', output]);
 }
+
+export const deployDoc = async (docPath: string, sha: string) => {
+    const deployDir = path.join(docPath, sha);
+
+    await io.rmRF(deployDir);
+    await io.mkdirP(deployDir);
+    
+    await io.mv(docPath, deployDir);
+
+    return path.join(deployDir, 'index.html')
+}

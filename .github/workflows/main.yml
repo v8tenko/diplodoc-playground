@@ -9,8 +9,7 @@ on:
 jobs:
   verify_files:
     name: Deploy sample docs
-    # runs-on: self-hosted
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - name: create env file

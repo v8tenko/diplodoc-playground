@@ -4,8 +4,9 @@ import * as github from '@actions/github';
 import git from './git';
 import npm from './npm';
 import navigation from './navigation';
-import { buildDoc } from './buildDoc';
-import { deployDoc } from './deployDoc';
+import {createOrUpdateMessage} from './github';
+
+import {buildDoc, deployDoc} from './doc';
 
 export const run = async () => {
     core.info('syncing submodules...')
@@ -24,5 +25,7 @@ export const run = async () => {
     core.info('deploying to nginx...')
     const {sha} = github.context;
 
-    await deployDoc(navigation.sampleDoc.output, sha);
+    const link = await deployDoc(navigation.sampleDoc.output, sha);
+
+    createOrUpdateMessage('Deployed to', `Deployed to ${link}`)
 }
