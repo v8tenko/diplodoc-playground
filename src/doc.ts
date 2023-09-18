@@ -26,6 +26,7 @@ export const deployDoc = async (docPath: string, sha: string) => {
     await io.rmRF(deployDir);
     await io.mkdirP(deployDir);
     
+    console.log(docPath, deployDir);
     await io.mv(docPath, deployDir);
 
     return path.join(deployDir, 'index.html')
