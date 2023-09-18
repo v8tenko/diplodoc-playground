@@ -8,5 +8,6 @@ export const deployDoc = async (docPath: string, sha: string) => {
     await io.rmRF(deployDir);
     await io.mkdirP(deployDir);
     
+    console.log(docPath, deployDir);
     return io.mv(docPath, deployDir);
 }
