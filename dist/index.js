@@ -9362,7 +9362,7 @@ var run = async () => {
   console.log(JSON.stringify(github2.context, null, 2));
   core3.info("syncing submodules...");
   await git_default.update();
-  core3.info("building modules...");
+  core3.info("prepraring modules...");
   await Promise.all(navigation_default.list.map(npm_default.install));
   if (pr_default.isDevRepository()) {
     const module2 = pr_default.repository();
@@ -9372,9 +9372,11 @@ var run = async () => {
     await npm_default.link(module2);
   }
   for (const module2 of navigation_default.list) {
+    core3.info(`linking ${module2} module...`);
     await npm_default.linkDevModule(module2);
-    await npm_default.build(module2);
   }
+  core3.info("builings modules...");
+  await Promise.all(navigation_default.list.map(npm_default.build));
   const { sha } = github2.context;
   core3.info("running yfm-docs...");
   await buildDoc(sha);

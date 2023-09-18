@@ -15,7 +15,7 @@ export const run = async () => {
     core.info('syncing submodules...')
     await git.update();
 
-    core.info('building modules...')
+    core.info('prepraring modules...')
     await Promise.all(navigation.list.map(npm.install));
 
     if (pr.isDevRepository()) {
@@ -28,10 +28,14 @@ export const run = async () => {
         await npm.link(module);
     }
 
-     for (const module of navigation.list) {
+    for (const module of navigation.list) {
+        core.info(`linking ${module} module...`)
+
         await npm.linkDevModule(module);
-        await npm.build(module);
-     }
+    }
+
+    core.info('builings modules...')
+    await Promise.all(navigation.list.map(npm.build));
 
     const {sha} = github.context;
 
