@@ -26,7 +26,7 @@ export const deployDoc = async (docPath: string, sha: string) => {
     await io.rmRF(deployDir);
     await io.mkdirP(deployDir);
     
-    await io.mv(docPath, deployDir);
+    await io.mv(`${docPath}/*`, deployDir);
 
     return deployLink;
 }
