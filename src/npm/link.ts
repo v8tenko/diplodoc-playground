@@ -38,7 +38,11 @@ export const linkDevModule = async (module: Module) => {
         return Promise.resolve(0);
     }
 
-    await link(module);
+    try {
+        await link(module);
+    } catch (error) {
+        core.info(`linking error: unable to link ${module}: ${error}`)
+    }
 
     return Promise.all(navigation.list.map((deps) => {
         if (!didModuleDependsOn(module, deps)) {
