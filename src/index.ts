@@ -24,5 +24,5 @@ export const run = async () => {
     core.info('deploying to nginx...')
     const {sha} = github.context;
 
-    deployDoc(navigation.sampleDoc.output, sha);
+    await deployDoc(navigation.sampleDoc.output, sha);
 }
