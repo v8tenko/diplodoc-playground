@@ -9,4 +9,7 @@ export const sampleDoc = {
     input: path.join(baseUrl, 'project'),
     output: path.join(baseUrl, 'project-output')
 }
-export const nginxFolder = '/home/v8tenko/v8tenko.tech/diplodoc';
+export const nginx = {
+    folder: '/home/v8tenko/v8tenko.tech/diplodoc',
+    host: 'https://v8tenko.tech/diplodoc'
+};

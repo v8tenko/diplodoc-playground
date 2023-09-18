@@ -2,7 +2,7 @@ import path from 'node:path';
 import * as exec from '@actions/exec';
 import * as io from '@actions/io';
 
-import submodule, {sampleDoc, nginxFolder} from './navigation';
+import submodule, {sampleDoc, nginx} from './navigation';
 
 type Props = {
     input?: string;
@@ -20,12 +20,13 @@ export const buildDoc = async ({input = sampleDoc.input, output = sampleDoc.outp
 }
 
 export const deployDoc = async (docPath: string, sha: string) => {
-    const deployDir = path.join(nginxFolder, sha);
+    const deployDir = path.join(nginx.folder, sha);
+    const deployLink = nginx.host + '/' + sha + '/index.html';
 
     await io.rmRF(deployDir);
     await io.mkdirP(deployDir);
     
     await io.mv(docPath, deployDir);
 
-    return path.join(deployDir, 'index.html')
+    return deployLink;
 }

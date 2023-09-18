@@ -9188,7 +9188,10 @@ var sampleDoc = {
   input: import_node_path.default.join(baseUrl, "project"),
   output: import_node_path.default.join(baseUrl, "project-output")
 };
-var nginxFolder = "/home/v8tenko/v8tenko.tech/diplodoc";
+var nginx = {
+  folder: "/home/v8tenko/v8tenko.tech/diplodoc",
+  host: "https://v8tenko.tech/diplodoc"
+};
 
 // src/git/update.ts
 var update = async () => {
@@ -9208,7 +9211,7 @@ var path2 = (module2) => {
 };
 
 // src/navigation/index.ts
-var navigation_default = { path: path2, list: submodules, sampleDoc, nginxFolder };
+var navigation_default = { path: path2, list: submodules, sampleDoc, nginx };
 
 // src/npm/install.ts
 var install = (module2) => {
@@ -9264,11 +9267,12 @@ var buildDoc = async ({ input = sampleDoc.input, output = sampleDoc.output }) =>
   return exec7.exec(`node ${excecutable}`, ["-i", input, "-o", output]);
 };
 var deployDoc = async (docPath, sha) => {
-  const deployDir = import_node_path2.default.join(nginxFolder, sha);
+  const deployDir = import_node_path2.default.join(nginx.folder, sha);
+  const deployLink = nginx.host + "/" + sha + "/index.html";
   await io.rmRF(deployDir);
   await io.mkdirP(deployDir);
   await io.mv(docPath, deployDir);
-  return import_node_path2.default.join(deployDir, "index.html");
+  return deployLink;
 };
 
 // node_modules/dotenv/config.js
