@@ -5,8 +5,9 @@ import git from './git';
 import npm from './npm';
 import navigation from './navigation';
 import {createOrUpdateMessage} from './github';
-
 import {buildDoc, deployDoc} from './doc';
+
+import 'dotenv/config';
 
 export const run = async () => {
     core.info('syncing submodules...')
