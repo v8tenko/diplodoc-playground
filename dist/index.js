@@ -1154,12 +1154,12 @@ var require_lib = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info4 = this._prepareRequest(verb, parsedUrl, headers);
+          let info3 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info4, data);
+            response = yield this.requestRaw(info3, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler of this.handlers) {
@@ -1169,7 +1169,7 @@ var require_lib = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info4, data);
+                return authenticationHandler.handleAuthentication(this, info3, data);
               } else {
                 return response;
               }
@@ -1192,8 +1192,8 @@ var require_lib = __commonJS({
                   }
                 }
               }
-              info4 = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info4, data);
+              info3 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info3, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -1222,7 +1222,7 @@ var require_lib = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info4, data) {
+      requestRaw(info3, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -1234,7 +1234,7 @@ var require_lib = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info4, data, callbackForResult);
+            this.requestRawWithCallback(info3, data, callbackForResult);
           });
         });
       }
@@ -1244,12 +1244,12 @@ var require_lib = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info4, data, onResult) {
+      requestRawWithCallback(info3, data, onResult) {
         if (typeof data === "string") {
-          if (!info4.options.headers) {
-            info4.options.headers = {};
+          if (!info3.options.headers) {
+            info3.options.headers = {};
           }
-          info4.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info3.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult(err, res) {
@@ -1258,7 +1258,7 @@ var require_lib = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info4.httpModule.request(info4.options, (msg) => {
+        const req = info3.httpModule.request(info3.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult(void 0, res);
         });
@@ -1270,7 +1270,7 @@ var require_lib = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult(new Error(`Request timeout: ${info4.options.path}`));
+          handleResult(new Error(`Request timeout: ${info3.options.path}`));
         });
         req.on("error", function(err) {
           handleResult(err);
@@ -1297,27 +1297,27 @@ var require_lib = __commonJS({
         return this._getAgent(parsedUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info4 = {};
-        info4.parsedUrl = requestUrl;
-        const usingSsl = info4.parsedUrl.protocol === "https:";
-        info4.httpModule = usingSsl ? https : http;
+        const info3 = {};
+        info3.parsedUrl = requestUrl;
+        const usingSsl = info3.parsedUrl.protocol === "https:";
+        info3.httpModule = usingSsl ? https : http;
         const defaultPort = usingSsl ? 443 : 80;
-        info4.options = {};
-        info4.options.host = info4.parsedUrl.hostname;
-        info4.options.port = info4.parsedUrl.port ? parseInt(info4.parsedUrl.port) : defaultPort;
-        info4.options.path = (info4.parsedUrl.pathname || "") + (info4.parsedUrl.search || "");
-        info4.options.method = method;
-        info4.options.headers = this._mergeHeaders(headers);
+        info3.options = {};
+        info3.options.host = info3.parsedUrl.hostname;
+        info3.options.port = info3.parsedUrl.port ? parseInt(info3.parsedUrl.port) : defaultPort;
+        info3.options.path = (info3.parsedUrl.pathname || "") + (info3.parsedUrl.search || "");
+        info3.options.method = method;
+        info3.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info4.options.headers["user-agent"] = this.userAgent;
+          info3.options.headers["user-agent"] = this.userAgent;
         }
-        info4.options.agent = this._getAgent(info4.parsedUrl);
+        info3.options.agent = this._getAgent(info3.parsedUrl);
         if (this.handlers) {
           for (const handler of this.handlers) {
-            handler.prepareRequest(info4.options);
+            handler.prepareRequest(info3.options);
           }
         }
-        return info4;
+        return info3;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -2161,10 +2161,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports.notice = notice;
-    function info4(message) {
+    function info3(message) {
       process.stdout.write(message + os.EOL);
     }
-    exports.info = info4;
+    exports.info = info3;
     function startGroup(name) {
       command_1.issue("group", name);
     }
@@ -9172,7 +9172,7 @@ var require_cli_options = __commonJS({
 });
 
 // src/index.ts
-var core3 = __toESM(require_core());
+var core2 = __toESM(require_core());
 var github2 = __toESM(require_github());
 
 // src/git/update.ts
@@ -9246,31 +9246,34 @@ var build = (module2) => {
 
 // src/npm/link.ts
 var exec7 = __toESM(require_exec());
-var core2 = __toESM(require_core());
 var import_node_fs = __toESM(require("node:fs"));
 var import_node_path2 = __toESM(require("node:path"));
 var linked = {
   name: null
 };
-var link = (module2) => {
+var link = (module2, target = "") => {
   const pathToModule = navigation_default.path(module2);
   linked.name = navigation_default.packages[module2];
-  return exec7.exec("npm link", [], { cwd: pathToModule });
+  return exec7.exec(`npm link ${target}`, [], { cwd: pathToModule });
 };
-var linkDevModule = (module2) => {
+var didModuleDependsOn = (module2, deps) => {
   const pathToModule = navigation_default.path(module2);
   const pathToPackageJson = import_node_path2.default.join(pathToModule, "package.json");
+  const modulePackageJson = JSON.parse(import_node_fs.default.readFileSync(pathToPackageJson).toString());
+  const didModuleHasDevModuleInDeps = navigation_default.packages[deps] in modulePackageJson.dependencies;
+  return didModuleHasDevModuleInDeps;
+};
+var linkDevModule = async (module2) => {
   if (!linked.name) {
     return Promise.resolve(0);
   }
-  const modulePackageJson = JSON.parse(import_node_fs.default.readFileSync(pathToPackageJson).toString());
-  const didModuleHasDevModuleInDeps = linked.name in modulePackageJson.dependencies;
-  if (!didModuleHasDevModuleInDeps) {
-    core2.info(`${module2} did not depend on ${linked.name}. skiping`);
-    return Promise.resolve(0);
-  }
-  core2.info(`link ${linked.name} to ${module2}...`);
-  return exec7.exec(`npm link ${linked.name}`, [], { cwd: pathToModule });
+  await link(module2);
+  return Promise.all(navigation_default.list.map((deps) => {
+    if (!didModuleDependsOn(module2, deps)) {
+      return Promise.resolve(0);
+    }
+    return link(module2, navigation_default.packages[deps]);
+  }));
 };
 
 // src/npm/index.ts
@@ -9350,9 +9353,9 @@ var deployDoc = async (sha) => {
 
 // src/index.ts
 var run = async () => {
-  core3.info("syncing submodules...");
+  core2.info("syncing submodules...");
   await git_default.update();
-  core3.info("building modules...");
+  core2.info("building modules...");
   await Promise.all(navigation_default.list.map(npm_default.install));
   if (pr_default.isDevRepository()) {
     const module2 = pr_default.repository();
@@ -9365,9 +9368,9 @@ var run = async () => {
     return npm_default.build(module2);
   }));
   const { sha } = github2.context;
-  core3.info("running yfm-docs...");
+  core2.info("running yfm-docs...");
   await buildDoc(sha);
-  core3.info("deploying to nginx...");
+  core2.info("deploying to nginx...");
   const link2 = await deployDoc(sha);
   pr_default.createOrUpdateMessage("Deployed to", `Deployed to ${link2}`);
 };

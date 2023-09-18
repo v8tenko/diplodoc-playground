@@ -15,30 +15,37 @@ export let linked: LinkModule = {
     name: null
 }
 
-export const link = (module: Module): Promise<number> => {
+export const link = (module: Module, target: string = ''): Promise<number> => {
     const pathToModule = submodules.path(module);
 
     linked.name = navigation.packages[module];
 
-    return exec.exec('npm link', [], { cwd: pathToModule });
+    return exec.exec(`npm link ${target}`, [], { cwd: pathToModule });
 }
 
-export const linkDevModule = (module: Module): Promise<number> => {
+const didModuleDependsOn = (module: Module, deps: Module): boolean => {
     const pathToModule = submodules.path(module);
     const pathToPackageJson = path.join(pathToModule, 'package.json');
 
+    const modulePackageJson = JSON.parse(fs.readFileSync(pathToPackageJson).toString());
+    const didModuleHasDevModuleInDeps = navigation.packages[deps] in modulePackageJson.dependencies;
+
+    return didModuleHasDevModuleInDeps;
+}
+
+export const linkDevModule = async (module: Module) => {
     if (!linked.name) {
         return Promise.resolve(0);
     }
 
-    const modulePackageJson = JSON.parse(fs.readFileSync(pathToPackageJson).toString());
-    const didModuleHasDevModuleInDeps = linked.name in modulePackageJson.dependencies;
+    await link(module);
 
-    if (!didModuleHasDevModuleInDeps) {
-        core.info(`${module} did not depend on ${linked.name}. skiping`)
-        return Promise.resolve(0);
-    }
+    return Promise.all(navigation.list.map((deps) => {
+        if (!didModuleDependsOn(module, deps)) {
+            return Promise.resolve(0);
+        }
 
-    core.info(`link ${linked.name} to ${module}...`)
-    return exec.exec(`npm link ${linked.name}`, [], { cwd: pathToModule });
+        return link(module, navigation.packages[deps]);
+    }));
+
 }
