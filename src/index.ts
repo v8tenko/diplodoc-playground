@@ -19,8 +19,9 @@ export const run = async () => {
 
     if (pr.isDevRepository()) {
         const module = pr.repository() as Module;
+        const branch = pr.branch();
 
-        git.checkout(module, 'coloring');
+        git.checkout(module, branch);
         
         await npm.install(module);
         await npm.link(module);

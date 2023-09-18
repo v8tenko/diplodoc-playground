@@ -2092,7 +2092,7 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path5.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
-    function getInput(name, options) {
+    function getInput2(name, options) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -2102,9 +2102,9 @@ var require_core = __commonJS({
       }
       return val.trim();
     }
-    exports.getInput = getInput;
+    exports.getInput = getInput2;
     function getMultilineInput(name, options) {
-      const inputs = getInput(name, options).split("\n").filter((x) => x !== "");
+      const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
       if (options && options.trimWhitespace === false) {
         return inputs;
       }
@@ -2114,7 +2114,7 @@ var require_core = __commonJS({
     function getBooleanInput(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput(name, options);
+      const val = getInput2(name, options);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
@@ -9172,7 +9172,7 @@ var require_cli_options = __commonJS({
 });
 
 // src/index.ts
-var core2 = __toESM(require_core());
+var core3 = __toESM(require_core());
 var github2 = __toESM(require_github());
 
 // src/git/update.ts
@@ -9217,9 +9217,9 @@ var navigation_default = { path: path2, list: submodules, doc, nginx, packages }
 
 // src/git/checkout.ts
 var import_node_child_process2 = require("node:child_process");
-var checkout = (module2, branch) => {
+var checkout = (module2, branch2) => {
   const pathToModule = navigation_default.path(module2);
-  const process3 = (0, import_node_child_process2.spawnSync)(`git`, ["checkout", branch], { cwd: pathToModule });
+  const process3 = (0, import_node_child_process2.spawnSync)(`git`, ["checkout", branch2], { cwd: pathToModule });
   if (process3.error) {
     core.error(process3.error);
     throw process3.error;
@@ -9281,8 +9281,10 @@ var npm_default = { install, build, link, linked, linkDevModule };
 
 // src/pr/utils.ts
 var github = __toESM(require_github());
+var core2 = __toESM(require_core());
 var createOrUpdateMessage = async (prefix, body) => {
-  const octakit = github.getOctokit(process.env.GH_TOKEN);
+  const token = core2.getInput("token");
+  const octakit = github.getOctokit(token);
   octakit.rest.issues.listComments({
     ...github.context.issue,
     issue_number: github.context.issue.number
@@ -9304,8 +9306,12 @@ var createOrUpdateMessage = async (prefix, body) => {
     });
   });
 };
+var branch = () => {
+  const { ref } = github.context;
+  const name = ref.split("/")[2];
+  return name;
+};
 var repository = () => {
-  return "openapi-extension";
   const { repository: repository2 } = github.context.payload;
   const name = repository2.full_name.split("/")[1];
   return name;
@@ -9316,7 +9322,7 @@ var isDevRepository = () => {
 };
 
 // src/pr/index.ts
-var pr_default = { createOrUpdateMessage, isDevRepository, repository };
+var pr_default = { createOrUpdateMessage, isDevRepository, repository, branch };
 
 // src/doc.ts
 var import_node_path3 = __toESM(require("node:path"));
@@ -9353,13 +9359,14 @@ var deployDoc = async (sha) => {
 
 // src/index.ts
 var run = async () => {
-  core2.info("syncing submodules...");
+  core3.info("syncing submodules...");
   await git_default.update();
-  core2.info("building modules...");
+  core3.info("building modules...");
   await Promise.all(navigation_default.list.map(npm_default.install));
   if (pr_default.isDevRepository()) {
     const module2 = pr_default.repository();
-    git_default.checkout(module2, "coloring");
+    const branch2 = pr_default.branch();
+    git_default.checkout(module2, branch2);
     await npm_default.install(module2);
     await npm_default.link(module2);
   }
@@ -9368,9 +9375,9 @@ var run = async () => {
     await npm_default.build(module2);
   }
   const { sha } = github2.context;
-  core2.info("running yfm-docs...");
+  core3.info("running yfm-docs...");
   await buildDoc(sha);
-  core2.info("deploying to nginx...");
+  core3.info("deploying to nginx...");
   const link2 = await deployDoc(sha);
   pr_default.createOrUpdateMessage("Deployed to", `Deployed to ${link2}`);
 };

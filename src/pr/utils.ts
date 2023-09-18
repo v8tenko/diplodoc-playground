@@ -1,4 +1,5 @@
 import * as github from '@actions/github';
+import * as core from '@actions/core';
 
 import { Context } from "@actions/github/lib/context";
 import { submodules } from '../navigation';
@@ -6,7 +7,8 @@ import { submodules } from '../navigation';
 type Octokit = ReturnType<typeof github.getOctokit>
 
 export const createOrUpdateMessage = async (prefix: string, body: string) => {
-    const octakit = github.getOctokit(process.env.GH_TOKEN!);
+    const token = core.getInput('token');
+    const octakit = github.getOctokit(token);
 
     octakit.rest.issues.listComments({
         ...github.context.issue,
@@ -34,9 +36,14 @@ export const createOrUpdateMessage = async (prefix: string, body: string) => {
       })
 }
 
-export const repository = () => {
-  return 'openapi-extension';
+export const branch = () => {
+  const {ref} = github.context;
+  const name = ref.split('/')[2];
 
+  return name;
+}
+
+export const repository = () => {
   const {repository} = github.context.payload;
   const name = repository!.full_name!.split('/')[1];
 
