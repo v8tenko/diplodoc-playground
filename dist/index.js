@@ -9363,10 +9363,10 @@ var run = async () => {
     await npm_default.install(module2);
     await npm_default.link(module2);
   }
-  await Promise.all(navigation_default.list.map(async (module2) => {
+  for (const module2 of navigation_default.list) {
     await npm_default.linkDevModule(module2);
-    return npm_default.build(module2);
-  }));
+    await npm_default.build(module2);
+  }
   const { sha } = github2.context;
   core2.info("running yfm-docs...");
   await buildDoc(sha);

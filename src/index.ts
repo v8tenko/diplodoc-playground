@@ -26,11 +26,10 @@ export const run = async () => {
         await npm.link(module);
     }
 
-    await Promise.all(navigation.list.map(async (module) => {
+     for (const module of navigation.list) {
         await npm.linkDevModule(module);
-        
-        return npm.build(module);
-    }));
+        await npm.build(module);
+     }
 
     const {sha} = github.context;
 
