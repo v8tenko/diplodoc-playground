@@ -8906,6 +8906,7 @@ var deployDoc = async (docPath, sha) => {
   const deployDir = import_node_path2.default.join(docPath, sha);
   await io.rmRF(deployDir);
   await io.mkdirP(deployDir);
+  console.log(docPath, deployDir);
   await io.mv(docPath, deployDir);
   return import_node_path2.default.join(deployDir, "index.html");
 };
