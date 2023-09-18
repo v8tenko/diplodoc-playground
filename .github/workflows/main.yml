@@ -9,7 +9,8 @@ on:
 jobs:
   verify_files:
     name: Deploy sample docs
-    runs-on: self-hosted
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: create env file
@@ -19,8 +20,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - run: bash update.bash
-      - run: bash prepare.bash
       - run: npm i
       - run: npm run build
       - run: npm run start
