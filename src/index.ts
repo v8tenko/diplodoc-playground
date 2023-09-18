@@ -14,18 +14,20 @@ export const run = async () => {
     core.info('syncing submodules...')
     await git.update();
 
-    core.info('prepraring modules...')
-    await Promise.all(navigation.list.map(npm.install));
 
     if (pr.isDevRepository()) {
         const module = pr.repository() as Module;
         const branch = pr.branch();
 
         git.checkout(module, branch);
+        git.pull(module);
         
         await npm.install(module);
         await npm.link(module);
     }
+
+    core.info('prepraring modules...')
+    await Promise.all(navigation.list.map(npm.install));
 
     for (const module of navigation.list) {
         core.info(`linking ${module} module...`)

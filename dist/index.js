@@ -748,18 +748,18 @@ var require_tunnel = __commonJS({
             res.statusCode
           );
           socket.destroy();
-          var error3 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
-          error3.code = "ECONNRESET";
-          options.request.emit("error", error3);
+          var error4 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
+          error4.code = "ECONNRESET";
+          options.request.emit("error", error4);
           self.removeSocket(placeholder);
           return;
         }
         if (head.length > 0) {
           debug("got illegal response body from proxy");
           socket.destroy();
-          var error3 = new Error("got illegal response body from proxy");
-          error3.code = "ECONNRESET";
-          options.request.emit("error", error3);
+          var error4 = new Error("got illegal response body from proxy");
+          error4.code = "ECONNRESET";
+          options.request.emit("error", error4);
           self.removeSocket(placeholder);
           return;
         }
@@ -774,9 +774,9 @@ var require_tunnel = __commonJS({
           cause.message,
           cause.stack
         );
-        var error3 = new Error("tunneling socket could not be established, cause=" + cause.message);
-        error3.code = "ECONNRESET";
-        options.request.emit("error", error3);
+        var error4 = new Error("tunneling socket could not be established, cause=" + cause.message);
+        error4.code = "ECONNRESET";
+        options.request.emit("error", error4);
         self.removeSocket(placeholder);
       }
     };
@@ -1154,12 +1154,12 @@ var require_lib = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info4 = this._prepareRequest(verb, parsedUrl, headers);
+          let info5 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info4, data);
+            response = yield this.requestRaw(info5, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler of this.handlers) {
@@ -1169,7 +1169,7 @@ var require_lib = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info4, data);
+                return authenticationHandler.handleAuthentication(this, info5, data);
               } else {
                 return response;
               }
@@ -1192,8 +1192,8 @@ var require_lib = __commonJS({
                   }
                 }
               }
-              info4 = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info4, data);
+              info5 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info5, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -1222,7 +1222,7 @@ var require_lib = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info4, data) {
+      requestRaw(info5, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -1234,7 +1234,7 @@ var require_lib = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info4, data, callbackForResult);
+            this.requestRawWithCallback(info5, data, callbackForResult);
           });
         });
       }
@@ -1244,12 +1244,12 @@ var require_lib = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info4, data, onResult) {
+      requestRawWithCallback(info5, data, onResult) {
         if (typeof data === "string") {
-          if (!info4.options.headers) {
-            info4.options.headers = {};
+          if (!info5.options.headers) {
+            info5.options.headers = {};
           }
-          info4.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info5.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult(err, res) {
@@ -1258,7 +1258,7 @@ var require_lib = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info4.httpModule.request(info4.options, (msg) => {
+        const req = info5.httpModule.request(info5.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult(void 0, res);
         });
@@ -1270,7 +1270,7 @@ var require_lib = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult(new Error(`Request timeout: ${info4.options.path}`));
+          handleResult(new Error(`Request timeout: ${info5.options.path}`));
         });
         req.on("error", function(err) {
           handleResult(err);
@@ -1297,27 +1297,27 @@ var require_lib = __commonJS({
         return this._getAgent(parsedUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info4 = {};
-        info4.parsedUrl = requestUrl;
-        const usingSsl = info4.parsedUrl.protocol === "https:";
-        info4.httpModule = usingSsl ? https : http;
+        const info5 = {};
+        info5.parsedUrl = requestUrl;
+        const usingSsl = info5.parsedUrl.protocol === "https:";
+        info5.httpModule = usingSsl ? https : http;
         const defaultPort = usingSsl ? 443 : 80;
-        info4.options = {};
-        info4.options.host = info4.parsedUrl.hostname;
-        info4.options.port = info4.parsedUrl.port ? parseInt(info4.parsedUrl.port) : defaultPort;
-        info4.options.path = (info4.parsedUrl.pathname || "") + (info4.parsedUrl.search || "");
-        info4.options.method = method;
-        info4.options.headers = this._mergeHeaders(headers);
+        info5.options = {};
+        info5.options.host = info5.parsedUrl.hostname;
+        info5.options.port = info5.parsedUrl.port ? parseInt(info5.parsedUrl.port) : defaultPort;
+        info5.options.path = (info5.parsedUrl.pathname || "") + (info5.parsedUrl.search || "");
+        info5.options.method = method;
+        info5.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info4.options.headers["user-agent"] = this.userAgent;
+          info5.options.headers["user-agent"] = this.userAgent;
         }
-        info4.options.agent = this._getAgent(info4.parsedUrl);
+        info5.options.agent = this._getAgent(info5.parsedUrl);
         if (this.handlers) {
           for (const handler of this.handlers) {
-            handler.prepareRequest(info4.options);
+            handler.prepareRequest(info5.options);
           }
         }
-        return info4;
+        return info5;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -1616,12 +1616,12 @@ var require_oidc_utils = __commonJS({
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
           const httpclient = _OidcClient.createHttpClient();
-          const res = yield httpclient.getJson(id_token_url).catch((error3) => {
+          const res = yield httpclient.getJson(id_token_url).catch((error4) => {
             throw new Error(`Failed to get ID Token. 
  
-        Error Code : ${error3.statusCode}
+        Error Code : ${error4.statusCode}
  
-        Error Message: ${error3.message}`);
+        Error Message: ${error4.message}`);
           });
           const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
           if (!id_token) {
@@ -1642,8 +1642,8 @@ var require_oidc_utils = __commonJS({
             const id_token = yield _OidcClient.getCall(id_token_url);
             core_1.setSecret(id_token);
             return id_token;
-          } catch (error3) {
-            throw new Error(`Error message: ${error3.message}`);
+          } catch (error4) {
+            throw new Error(`Error message: ${error4.message}`);
           }
         });
       }
@@ -2138,7 +2138,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports.setCommandEcho = setCommandEcho;
     function setFailed(message) {
       process.exitCode = ExitCode.Failure;
-      error3(message);
+      error4(message);
     }
     exports.setFailed = setFailed;
     function isDebug() {
@@ -2149,10 +2149,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("debug", {}, message);
     }
     exports.debug = debug;
-    function error3(message, properties = {}) {
+    function error4(message, properties = {}) {
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.error = error3;
+    exports.error = error4;
     function warning(message, properties = {}) {
       command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -2161,10 +2161,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports.notice = notice;
-    function info4(message) {
+    function info5(message) {
       process.stdout.write(message + os.EOL);
     }
-    exports.info = info4;
+    exports.info = info5;
     function startGroup(name) {
       command_1.issue("group", name);
     }
@@ -2412,8 +2412,8 @@ var require_add = __commonJS({
       }
       if (kind === "error") {
         hook = function(method, options) {
-          return Promise.resolve().then(method.bind(null, options)).catch(function(error3) {
-            return orig(error3, options);
+          return Promise.resolve().then(method.bind(null, options)).catch(function(error4) {
+            return orig(error4, options);
           });
         };
       }
@@ -3100,21 +3100,21 @@ var require_tr46 = __commonJS({
         label = punycode.toUnicode(label);
         processing_option = PROCESSING_OPTIONS.NONTRANSITIONAL;
       }
-      var error3 = false;
+      var error4 = false;
       if (normalize(label) !== label || label[3] === "-" && label[4] === "-" || label[0] === "-" || label[label.length - 1] === "-" || label.indexOf(".") !== -1 || label.search(combiningMarksRegex) === 0) {
-        error3 = true;
+        error4 = true;
       }
       var len = countSymbols(label);
       for (var i = 0; i < len; ++i) {
         var status = findStatus(label.codePointAt(i));
         if (processing === PROCESSING_OPTIONS.TRANSITIONAL && status[1] !== "valid" || processing === PROCESSING_OPTIONS.NONTRANSITIONAL && status[1] !== "valid" && status[1] !== "deviation") {
-          error3 = true;
+          error4 = true;
           break;
         }
       }
       return {
         label,
-        error: error3
+        error: error4
       };
     }
     function processing(domain_name, useSTD3, processing_option) {
@@ -4766,8 +4766,8 @@ var require_lib3 = __commonJS({
       this.timeout = timeout;
       if (body instanceof Stream) {
         body.on("error", function(err) {
-          const error3 = err.name === "AbortError" ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, "system", err);
-          _this[INTERNALS].error = error3;
+          const error4 = err.name === "AbortError" ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, "system", err);
+          _this[INTERNALS].error = error4;
         });
       }
     }
@@ -5612,14 +5612,14 @@ var require_lib3 = __commonJS({
         const signal = request.signal;
         let response = null;
         const abort = function abort2() {
-          let error3 = new AbortError("The user aborted a request.");
-          reject(error3);
+          let error4 = new AbortError("The user aborted a request.");
+          reject(error4);
           if (request.body && request.body instanceof Stream.Readable) {
-            destroyStream(request.body, error3);
+            destroyStream(request.body, error4);
           }
           if (!response || !response.body)
             return;
-          response.body.emit("error", error3);
+          response.body.emit("error", error4);
         };
         if (signal && signal.aborted) {
           abort();
@@ -6073,7 +6073,7 @@ var require_dist_node5 = __commonJS({
         }
         if (status >= 400) {
           const data = await getResponseData(response);
-          const error3 = new requestError.RequestError(toErrorMessage(data), status, {
+          const error4 = new requestError.RequestError(toErrorMessage(data), status, {
             response: {
               url,
               status,
@@ -6082,7 +6082,7 @@ var require_dist_node5 = __commonJS({
             },
             request: requestOptions
           });
-          throw error3;
+          throw error4;
         }
         return getResponseData(response);
       }).then((data) => {
@@ -6092,10 +6092,10 @@ var require_dist_node5 = __commonJS({
           headers,
           data
         };
-      }).catch((error3) => {
-        if (error3 instanceof requestError.RequestError)
-          throw error3;
-        throw new requestError.RequestError(error3.message, 500, {
+      }).catch((error4) => {
+        if (error4 instanceof requestError.RequestError)
+          throw error4;
+        throw new requestError.RequestError(error4.message, 500, {
           request: requestOptions
         });
       });
@@ -7608,9 +7608,9 @@ var require_dist_node10 = __commonJS({
               return {
                 value: normalizedResponse
               };
-            } catch (error3) {
-              if (error3.status !== 409)
-                throw error3;
+            } catch (error4) {
+              if (error4.status !== 409)
+                throw error4;
               url = "";
               return {
                 value: {
@@ -8563,7 +8563,7 @@ var require_toolrunner = __commonJS({
               this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            state.on("done", (error3, exitCode) => {
+            state.on("done", (error4, exitCode) => {
               if (stdbuffer.length > 0) {
                 this.emit("stdline", stdbuffer);
               }
@@ -8571,8 +8571,8 @@ var require_toolrunner = __commonJS({
                 this.emit("errline", errbuffer);
               }
               cp.removeAllListeners();
-              if (error3) {
-                reject(error3);
+              if (error4) {
+                reject(error4);
               } else {
                 resolve(exitCode);
               }
@@ -8667,14 +8667,14 @@ var require_toolrunner = __commonJS({
         this.emit("debug", message);
       }
       _setResult() {
-        let error3;
+        let error4;
         if (this.processExited) {
           if (this.processError) {
-            error3 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            error4 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
           } else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
-            error3 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            error4 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
           } else if (this.processStderr && this.options.failOnStdErr) {
-            error3 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            error4 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
           }
         }
         if (this.timeout) {
@@ -8682,7 +8682,7 @@ var require_toolrunner = __commonJS({
           this.timeout = null;
         }
         this.done = true;
-        this.emit("done", error3, this.processExitCode);
+        this.emit("done", error4, this.processExitCode);
       }
       static HandleTimeout(state) {
         if (state.done) {
@@ -8953,9 +8953,9 @@ var require_main = __commonJS({
           const attrs = _instructions(result, key);
           decrypted = DotenvModule.decrypt(attrs.ciphertext, attrs.key);
           break;
-        } catch (error3) {
+        } catch (error4) {
           if (i + 1 >= length) {
-            throw error3;
+            throw error4;
           }
         }
       }
@@ -8983,11 +8983,11 @@ var require_main = __commonJS({
       let uri;
       try {
         uri = new URL(dotenvKey);
-      } catch (error3) {
-        if (error3.code === "ERR_INVALID_URL") {
+      } catch (error4) {
+        if (error4.code === "ERR_INVALID_URL") {
           throw new Error("INVALID_DOTENV_KEY: Wrong format. Must be in valid uri format like dotenv://:key_1234@dotenv.org/vault/.env.vault?environment=development");
         }
-        throw error3;
+        throw error4;
       }
       const key = uri.password;
       if (!key) {
@@ -9072,10 +9072,10 @@ var require_main = __commonJS({
         const aesgcm = crypto4.createDecipheriv("aes-256-gcm", key, nonce);
         aesgcm.setAuthTag(authTag);
         return `${aesgcm.update(ciphertext)}${aesgcm.final()}`;
-      } catch (error3) {
-        const isRange = error3 instanceof RangeError;
-        const invalidKeyLength = error3.message === "Invalid key length";
-        const decryptionFailed = error3.message === "Unsupported state or unable to authenticate data";
+      } catch (error4) {
+        const isRange = error4 instanceof RangeError;
+        const invalidKeyLength = error4.message === "Invalid key length";
+        const decryptionFailed = error4.message === "Unsupported state or unable to authenticate data";
         if (isRange || invalidKeyLength) {
           const msg = "INVALID_DOTENV_KEY: It must be 64 characters long (or more)";
           throw new Error(msg);
@@ -9083,9 +9083,9 @@ var require_main = __commonJS({
           const msg = "DECRYPTION_FAILED: Please check your DOTENV_KEY";
           throw new Error(msg);
         } else {
-          console.error("Error: ", error3.code);
-          console.error("Error: ", error3.message);
-          throw error3;
+          console.error("Error: ", error4.code);
+          console.error("Error: ", error4.message);
+          throw error4;
         }
       }
     }
@@ -9172,7 +9172,7 @@ var require_cli_options = __commonJS({
 });
 
 // src/index.ts
-var core4 = __toESM(require_core());
+var core5 = __toESM(require_core());
 var github2 = __toESM(require_github());
 
 // src/git/update.ts
@@ -9227,8 +9227,21 @@ var checkout = (module2, branch2) => {
   core.info(process3.output.toString());
 };
 
+// src/git/pull.ts
+var core2 = __toESM(require_core());
+var import_node_child_process3 = require("node:child_process");
+var pull = (module2) => {
+  const pathToModule = navigation_default.path(module2);
+  const process3 = (0, import_node_child_process3.spawnSync)(`git`, ["pull"], { cwd: pathToModule });
+  if (process3.error) {
+    core2.error(process3.error);
+    throw process3.error;
+  }
+  core2.info(process3.output.toString());
+};
+
 // src/git/index.ts
-var git_default = { update, checkout };
+var git_default = { update, checkout, pull };
 
 // src/npm/install.ts
 var exec3 = __toESM(require_exec());
@@ -9246,7 +9259,7 @@ var build = (module2) => {
 
 // src/npm/link.ts
 var exec7 = __toESM(require_exec());
-var core2 = __toESM(require_core());
+var core3 = __toESM(require_core());
 var import_node_fs = __toESM(require("node:fs"));
 var import_node_path2 = __toESM(require("node:path"));
 var linked = {
@@ -9266,7 +9279,7 @@ var link = (module2) => {
 var linkTarget = (module2, target) => {
   const pathToModule = navigation_default.path(module2);
   if (!linked[target]) {
-    core2.error(`unable to link ${target}: ${target} did not link yet`);
+    core3.error(`unable to link ${target}: ${target} did not link yet`);
   }
   return exec7.exec(`npm link ${target}`, [], { cwd: pathToModule });
 };
@@ -9283,8 +9296,8 @@ var linkDevModule = async (module2) => {
   }
   try {
     await link(module2);
-  } catch (error3) {
-    core2.info(`linking error: unable to link ${module2}: ${error3}`);
+  } catch (error4) {
+    core3.info(`linking error: unable to link ${module2}: ${error4}`);
   }
   return Promise.all(navigation_default.list.map((deps) => {
     if (!didModuleDependsOn(module2, deps)) {
@@ -9299,9 +9312,9 @@ var npm_default = { install, build, link, linked, linkDevModule };
 
 // src/pr/utils.ts
 var github = __toESM(require_github());
-var core3 = __toESM(require_core());
+var core4 = __toESM(require_core());
 var createOrUpdateMessage = async (prefix, body) => {
-  const token = core3.getInput("token");
+  const token = core4.getInput("token");
   const octakit = github.getOctokit(token);
   octakit.rest.issues.listComments({
     ...github.context.issue,
@@ -9376,29 +9389,30 @@ var deployDoc = async (sha) => {
 
 // src/index.ts
 var run = async () => {
-  core4.info("syncing submodules...");
+  core5.info("syncing submodules...");
   await git_default.update();
-  core4.info("prepraring modules...");
-  await Promise.all(navigation_default.list.map(npm_default.install));
   if (pr_default.isDevRepository()) {
     const module2 = pr_default.repository();
     const branch2 = pr_default.branch();
     git_default.checkout(module2, branch2);
+    git_default.pull(module2);
     await npm_default.install(module2);
     await npm_default.link(module2);
   }
+  core5.info("prepraring modules...");
+  await Promise.all(navigation_default.list.map(npm_default.install));
   for (const module2 of navigation_default.list) {
-    core4.info(`linking ${module2} module...`);
+    core5.info(`linking ${module2} module...`);
     await npm_default.linkDevModule(module2);
   }
   for (const module2 of navigation_default.list) {
-    core4.info(`building ${module2} module...`);
+    core5.info(`building ${module2} module...`);
     await npm_default.build(module2);
   }
   const { sha } = github2.context;
-  core4.info("running yfm-docs...");
+  core5.info("running yfm-docs...");
   await buildDoc(sha);
-  core4.info("deploying to nginx...");
+  core5.info("deploying to nginx...");
   const link2 = await deployDoc(sha);
   pr_default.createOrUpdateMessage("Deployed to", `Deployed to ${link2}`);
 };
