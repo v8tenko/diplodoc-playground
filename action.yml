@@ -19,7 +19,7 @@ runs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{secrets.G}}
+        github_token: ${{inputs.token}}
         destination_dir: ./${{github.sha}}
         publish_dir: project-output
         enable_jekyll: false
