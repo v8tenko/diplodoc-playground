@@ -8,7 +8,7 @@ on:
 
 jobs:
   verify_files:
-    permissions: 
+    permissions:
       contents: write
     name: Deploy sample docs
     # runs-on: self-hosted
@@ -19,10 +19,11 @@ jobs:
         with:
           node-version: 14
       - run: node 'dist/index.js'
-      - name: Deploy 
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          destination_dir: ${{github.head_ref || github.ref_name}}
+          destination_dir: ./${{github.sha}}
           publish_dir: project-output/test
           enable_jekyll: false
+          keep_files: true
