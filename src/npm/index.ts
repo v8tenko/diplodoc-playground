@@ -1,6 +1,7 @@
 import {install} from "./install";
 import {build} from "./build";
-import {link, linked, linkDevModule} from './link';
+import {link, linkWith} from './link';
+import {buildDependeciesTree, localDependencies} from './dependencies';
 
-export {install, build, link, linked, linkDevModule};
-export default {install, build, link, linked, linkDevModule};
+export {install, build, link, linkWith, buildDependeciesTree, localDependencies};
+export default {install, build, link, linkWith, buildDependeciesTree, localDependencies};

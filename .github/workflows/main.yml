@@ -9,14 +9,15 @@ on:
 jobs:
   verify_files:
     name: Deploy sample docs
-    runs-on: self-hosted
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: create env file
-        run: |
-          touch .env
-          echo GH_TOKEN=${{ secrets.GH_TOKEN }} >> .env
       - uses: actions/setup-node@v3
         with:
           node-version: 14
       - run: node 'dist/index.js'
+      - name: Deploy 
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: project-output/test
