@@ -62,11 +62,6 @@ export const run = async () => {
         await npm.build(module);
     }
 
-    const {sha = 'test'} = github.context;
-
     core.info('running yfm-docs...');
-    await buildDoc(sha);
-    
-    pr.disableJekyll(sha);
-
+    await buildDoc();
 }

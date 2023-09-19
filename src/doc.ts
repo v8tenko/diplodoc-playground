@@ -9,15 +9,14 @@ type Props = {
     output?: string;
 }
 
-export const buildDoc = async (sha: string, input: string = doc.input): Promise<number> => {
+export const buildDoc = async (input: string = doc.input): Promise<number> => {
     const pathToBuilder = submodule.path('yfm-docs');
     const excecutable = path.join(pathToBuilder, 'build', 'index.js');
-    const output = path.join(doc.output, sha);
 
-    await io.rmRF(output);
-    await io.mkdirP(output);
+    await io.rmRF(doc.output);
+    await io.mkdirP(doc.output);
 
-    return exec.exec(`node ${excecutable}`, ['-i', input, '-o', output]);
+    return exec.exec(`node ${excecutable}`, ['-i', input, '-o', doc.output]);
 
 
 }

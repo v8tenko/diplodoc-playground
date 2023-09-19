@@ -57,16 +57,3 @@ export const isDevRepository = () => {
 
     return navigation.list.includes(name as any);
 }
-
-export const disableJekyll = (sha: string) => {
-  const nojekyllPath = path.join(navigation.doc.output, sha, '.nojekyll');
-  const result = spawnSync('touch', [nojekyllPath]);
-
-  if (result.error) {
-    core.error(result.error);
-
-    throw result.error;
-  }
-
-  core.info(result.output.toString());
-}

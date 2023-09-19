@@ -1,4 +1,4 @@
-import {createOrUpdateMessage, isDevRepository, repository, branch, disableJekyll} from './utils';
+import {createOrUpdateMessage, isDevRepository, repository, branch} from './utils';
 
-export {createOrUpdateMessage, isDevRepository, repository, branch, disableJekyll};
-export default {createOrUpdateMessage, isDevRepository, repository, branch, disableJekyll};
+export {createOrUpdateMessage, isDevRepository, repository, branch};
+export default {createOrUpdateMessage, isDevRepository, repository, branch};
