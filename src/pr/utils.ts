@@ -57,3 +57,8 @@ export const isDevRepository = () => {
 
     return navigation.list.includes(name as any);
 }
+
+
+export const pagesDeployLink = () => {
+  
+}

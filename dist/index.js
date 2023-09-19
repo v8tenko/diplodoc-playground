@@ -2494,7 +2494,7 @@ var require_io = __commonJS({
       });
     }
     exports.cp = cp;
-    function mv2(source, dest, options = {}) {
+    function mv(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         if (yield ioUtil.exists(dest)) {
           let destExists = true;
@@ -2514,7 +2514,7 @@ var require_io = __commonJS({
         yield ioUtil.rename(source, dest);
       });
     }
-    exports.mv = mv2;
+    exports.mv = mv;
     function rmRF2(inputPath) {
       return __awaiter(this, void 0, void 0, function* () {
         if (ioUtil.IS_WINDOWS) {
@@ -9199,10 +9199,6 @@ var doc = {
   input: import_node_path.default.join(baseUrl, "project"),
   output: import_node_path.default.join(baseUrl, "project-output")
 };
-var nginx = {
-  folder: "/home/v8tenko/v8tenko.tech/diplodoc",
-  host: "https://v8tenko.tech/diplodoc"
-};
 
 // src/git/update.ts
 var update = async () => {
@@ -9219,7 +9215,7 @@ var path2 = (module2) => {
 };
 
 // src/navigation/index.ts
-var navigation_default = { path: path2, list: submodules, doc, nginx, mappings };
+var navigation_default = { path: path2, list: submodules, doc, mappings };
 
 // src/git/checkout.ts
 var import_node_child_process2 = require("node:child_process");

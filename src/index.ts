@@ -7,7 +7,7 @@ import npm from './npm';
 import navigation, {Module} from './navigation';
 import pr from './pr';
 
-import {buildDoc, deployDoc} from './doc';
+import {buildDoc} from './doc';
 
 import 'dotenv/config';
 

@@ -8,9 +8,20 @@ inputs:
     description: 'Path to doc to build'
     required: false
     default: 'sample'
-outputs:
-  errors:
-    description: 'Build error'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 14
+    - run: node 'dist/index.js'
+      shell: bash
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        destination_dir: ./${{github.sha}}
+        publish_dir: project-output
+        enable_jekyll: false
+        keep_files: true
+
