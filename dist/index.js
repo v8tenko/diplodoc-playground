@@ -9368,7 +9368,7 @@ var isDevRepository = () => {
   return navigation_default.list.includes(name);
 };
 var pagesDeployLink = () => {
-  const [user, repo] = github.context.full_name.split("/");
+  const [user, repo] = github.context.payload.repository.full_name.split("/");
   return `https://${user}.github.io/${repo}/${github.context.sha}`;
 };
 

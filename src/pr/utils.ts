@@ -61,7 +61,7 @@ export const isDevRepository = () => {
 
 export const pagesDeployLink = () => {
   // @ts-ignore
-  const [user, repo] = github.context.full_name.split('/');
+  const [user, repo] = github.context.payload.repository.full_name.split('/');
 
   return `https://${user}.github.io/${repo}/${github.context.sha}`
 }
