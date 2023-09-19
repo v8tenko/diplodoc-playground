@@ -11,7 +11,6 @@ jobs:
     permissions:
       contents: write
     name: Deploy sample docs
-    # runs-on: self-hosted
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +21,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          github_token: ${{inputs.token}}
           destination_dir: ./${{github.sha}}
           publish_dir: project-output
           enable_jekyll: false
