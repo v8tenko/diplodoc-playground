@@ -22,4 +22,5 @@ jobs:
       - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          target-folder: ${{github.head_ref || github.ref_name}}
           folder: project-output/test
