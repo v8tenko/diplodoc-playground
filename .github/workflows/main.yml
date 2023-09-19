@@ -8,6 +8,8 @@ on:
 
 jobs:
   verify_files:
+    permissions: 
+      contents: write
     name: Deploy sample docs
     # runs-on: self-hosted
     runs-on: ubuntu-latest
