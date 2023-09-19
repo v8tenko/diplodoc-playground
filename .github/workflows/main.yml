@@ -24,6 +24,6 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           destination_dir: ./${{github.sha}}
-          publish_dir: project-output/test
+          publish_dir: ./project-output
           enable_jekyll: false
           keep_files: true
