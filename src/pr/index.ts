@@ -1,4 +1,4 @@
-import {createOrUpdateMessage, isDevRepository, repository, branch} from './utils';
+import {createOrUpdateMessage, isDevRepository, repository, branch, pagesDeployLink} from './utils';
 
-export {createOrUpdateMessage, isDevRepository, repository, branch};
-export default {createOrUpdateMessage, isDevRepository, repository, branch};
+export {createOrUpdateMessage, isDevRepository, repository, branch, pagesDeployLink};
+export default {createOrUpdateMessage, isDevRepository, repository, branch, pagesDeployLink};

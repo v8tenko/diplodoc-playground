@@ -15,9 +15,9 @@ export const run = async () => {
     core.info('syncing submodules...')
     await git.update();
 
-    if (true || pr.isDevRepository()) {
-        const module = 'openapi-extension' || pr.repository() as Module;
-        const branch = 'coloring' || pr.branch();
+    if (pr.isDevRepository()) {
+        const module = pr.repository() as Module;
+        const branch = pr.branch();
 
         git.checkout(module, branch);
         git.pull(module);
@@ -64,4 +64,8 @@ export const run = async () => {
 
     core.info('running yfm-docs...');
     await buildDoc();
+
+    const link = pr.pagesDeployLink();
+
+    pr.createOrUpdateMessage('Deployed to', `Deployed to ${link}`)
 }

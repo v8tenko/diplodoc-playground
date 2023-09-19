@@ -9330,6 +9330,50 @@ var npm_default = { install, build, link, linkWith, buildDependeciesTree, localD
 // src/pr/utils.ts
 var github = __toESM(require_github());
 var core4 = __toESM(require_core());
+var createOrUpdateMessage = async (prefix, body) => {
+  const token = core4.getInput("token");
+  const octakit = github.getOctokit(token);
+  octakit.rest.issues.listComments({
+    ...github.context.issue,
+    issue_number: github.context.issue.number
+  }).then((comments) => {
+    const exsistsComment = comments.data.find((comment) => comment.body?.startsWith(prefix));
+    if (!exsistsComment) {
+      octakit.rest.issues.createComment({
+        ...github.context.issue,
+        issue_number: github.context.issue.number,
+        body
+      });
+      return;
+    }
+    octakit.rest.issues.updateComment({
+      ...github.context.issue,
+      issue_number: github.context.issue.number,
+      comment_id: exsistsComment.id,
+      body
+    });
+  });
+};
+var branch = () => {
+  const name = github.context.payload.pull_request.head.ref;
+  return name;
+};
+var repository = () => {
+  const { repository: repository2 } = github.context.payload;
+  const name = repository2.full_name.split("/")[1];
+  return name;
+};
+var isDevRepository = () => {
+  const name = repository();
+  return navigation_default.list.includes(name);
+};
+var pagesDeployLink = () => {
+  const [user, repo] = github.context.full_name.split("/");
+  return `https://${user}.github.io/${repo}/${github.context.sha}`;
+};
+
+// src/pr/index.ts
+var pr_default = { createOrUpdateMessage, isDevRepository, repository, branch, pagesDeployLink };
 
 // src/doc.ts
 var import_node_path3 = __toESM(require("node:path"));
@@ -9358,9 +9402,9 @@ var buildDoc = async (input = doc.input) => {
 var run = async () => {
   core5.info("syncing submodules...");
   await git_default.update();
-  if (true) {
-    const module2 = "openapi-extension";
-    const branch2 = "coloring";
+  if (pr_default.isDevRepository()) {
+    const module2 = pr_default.repository();
+    const branch2 = pr_default.branch();
     git_default.checkout(module2, branch2);
     git_default.pull(module2);
     await npm_default.install(module2);
@@ -9394,6 +9438,8 @@ var run = async () => {
   }
   core5.info("running yfm-docs...");
   await buildDoc();
+  const link2 = pr_default.pagesDeployLink();
+  pr_default.createOrUpdateMessage("Deployed to", `Deployed to ${link2}`);
 };
 
 // index.ts
