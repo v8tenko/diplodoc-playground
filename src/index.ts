@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import * as io from '@actions/io';
 
 import git from './git';
 import npm from './npm';
@@ -64,6 +65,8 @@ export const run = async () => {
     const {sha = 'test'} = github.context;
 
     core.info('running yfm-docs...');
-    await buildDoc('test');
+    await buildDoc(sha);
+    
+    pr.disableJekyll(sha);
 
 }

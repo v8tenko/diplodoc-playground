@@ -1,8 +1,10 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 
-import { Context } from "@actions/github/lib/context";
-import { submodules } from '../navigation';
+import {spawnSync} from 'node:child_process';
+import path from 'node:path';
+
+import navigation from '../navigation';
 
 type Octokit = ReturnType<typeof github.getOctokit>
 
@@ -53,5 +55,18 @@ export const repository = () => {
 export const isDevRepository = () => {
     const name = repository();
 
-    return submodules.includes(name as any);
+    return navigation.list.includes(name as any);
+}
+
+export const disableJekyll = (sha: string) => {
+  const nojekyllPath = path.join(navigation.doc.output, sha, '.nojekyll');
+  const result = spawnSync('touch', [nojekyllPath]);
+
+  if (result.error) {
+    core.error(result.error);
+
+    throw result.error;
+  }
+
+  core.info(result.output.toString());
 }
