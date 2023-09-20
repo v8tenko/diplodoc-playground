@@ -9181,17 +9181,19 @@ var import_node_child_process = require("node:child_process");
 // src/navigation/constants.ts
 var import_node_process = __toESM(require("node:process"));
 var import_node_path = __toESM(require("node:path"));
-var submodules = ["openapi-extension", "client", "yfm-docs"];
+var submodules = ["yfm-transform", "openapi-extension", "client", "yfm-docs"];
 var mappings = {
   module: {
     "openapi-extension": "@diplodoc/openapi-extension",
     "yfm-docs": "@doc-tools/docs",
-    client: "@diplodoc/client"
+    client: "@diplodoc/client",
+    "yfm-transform": "@doc-tools/transform"
   },
   package: {
     "@diplodoc/openapi-extension": "openapi-extension",
     "@doc-tools/docs": "yfm-docs",
-    "@diplodoc/client": "client"
+    "@diplodoc/client": "client",
+    "@doc-tools/transform": "yfm-transform"
   }
 };
 var baseUrl = import_node_process.default.cwd();

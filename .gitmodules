@@ -7,3 +7,6 @@
 [submodule "yfm-docs"]
 	path = yfm-docs
 	url = https://github.com/yandex-cloud/yfm-docs.git
+[submodule "yfm-transform"]
+	path = yfm-transform
+	url = https://github.com/yandex-cloud/yfm-transform.git
