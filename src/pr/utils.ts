@@ -4,12 +4,12 @@ import * as core from '@actions/core';
 import navigation from '../navigation';
 
 export const createOrUpdateMessage = async (prefix: string, body: string) => {
-    const token = core.getInput('token');
-
-    console.log(token);
+    const token = process.env.GH_TOKEN;
 
     if (!token) {
       core.error('unable to write a comment, github token is not defined.')
+
+      throw TypeError();
     }
 
     const octakit = github.getOctokit(token);

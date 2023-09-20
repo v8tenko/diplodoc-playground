@@ -14,6 +14,8 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: 14
+    - run: echo "GH_TOKEN=${{inputs.token}}" > .env
+      shell: bash
     - run: node 'dist/index.js'
       shell: bash
     - name: Deploy

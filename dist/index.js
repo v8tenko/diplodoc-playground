@@ -2092,7 +2092,7 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path5.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
-    function getInput2(name, options) {
+    function getInput(name, options) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -2102,9 +2102,9 @@ var require_core = __commonJS({
       }
       return val.trim();
     }
-    exports.getInput = getInput2;
+    exports.getInput = getInput;
     function getMultilineInput(name, options) {
-      const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
+      const inputs = getInput(name, options).split("\n").filter((x) => x !== "");
       if (options && options.trimWhitespace === false) {
         return inputs;
       }
@@ -2114,7 +2114,7 @@ var require_core = __commonJS({
     function getBooleanInput(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput2(name, options);
+      const val = getInput(name, options);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
@@ -9331,10 +9331,10 @@ var npm_default = { install, build, link, linkWith, buildDependeciesTree, localD
 var github = __toESM(require_github());
 var core4 = __toESM(require_core());
 var createOrUpdateMessage = async (prefix, body) => {
-  const token = core4.getInput("token");
-  console.log(token);
+  const token = process.env.GH_TOKEN;
   if (!token) {
     core4.error("unable to write a comment, github token is not defined.");
+    throw TypeError();
   }
   const octakit = github.getOctokit(token);
   octakit.rest.issues.listComments({
