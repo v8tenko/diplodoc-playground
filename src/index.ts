@@ -55,11 +55,6 @@ export const run = async () => {
         }
     }
 
-    for (const module of navigation.list) {
-        core.info(`building ${module} module...`)
-        await npm.build(module);
-    }
-
     core.info('running yfm-docs...');
     await buildDoc();
 

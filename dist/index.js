@@ -9436,10 +9436,6 @@ var run = async () => {
       linkQueue.push(parent);
     }
   }
-  for (const module2 of navigation_default.list) {
-    core5.info(`building ${module2} module...`);
-    await npm_default.build(module2);
-  }
   core5.info("running yfm-docs...");
   await buildDoc();
   const link2 = pr_default.pagesDeployLink();
