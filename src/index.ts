@@ -67,5 +67,7 @@ export const run = async () => {
 
     const link = pr.pagesDeployLink();
 
+    core.info(`Deployed to ${link}`);
+
     pr.createOrUpdateMessage('Deployed to', `Deployed to ${link}`)
 }

@@ -1,15 +1,15 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 
-import {spawnSync} from 'node:child_process';
-import path from 'node:path';
-
 import navigation from '../navigation';
-
-type Octokit = ReturnType<typeof github.getOctokit>
 
 export const createOrUpdateMessage = async (prefix: string, body: string) => {
     const token = core.getInput('token');
+
+    if (!token) {
+      core.error('unable to write a comment, github token is not defined.')
+    }
+
     const octakit = github.getOctokit(token);
 
     octakit.rest.issues.listComments({

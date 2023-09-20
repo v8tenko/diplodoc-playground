@@ -748,18 +748,18 @@ var require_tunnel = __commonJS({
             res.statusCode
           );
           socket.destroy();
-          var error4 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
-          error4.code = "ECONNRESET";
-          options.request.emit("error", error4);
+          var error5 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
+          error5.code = "ECONNRESET";
+          options.request.emit("error", error5);
           self.removeSocket(placeholder);
           return;
         }
         if (head.length > 0) {
           debug("got illegal response body from proxy");
           socket.destroy();
-          var error4 = new Error("got illegal response body from proxy");
-          error4.code = "ECONNRESET";
-          options.request.emit("error", error4);
+          var error5 = new Error("got illegal response body from proxy");
+          error5.code = "ECONNRESET";
+          options.request.emit("error", error5);
           self.removeSocket(placeholder);
           return;
         }
@@ -774,9 +774,9 @@ var require_tunnel = __commonJS({
           cause.message,
           cause.stack
         );
-        var error4 = new Error("tunneling socket could not be established, cause=" + cause.message);
-        error4.code = "ECONNRESET";
-        options.request.emit("error", error4);
+        var error5 = new Error("tunneling socket could not be established, cause=" + cause.message);
+        error5.code = "ECONNRESET";
+        options.request.emit("error", error5);
         self.removeSocket(placeholder);
       }
     };
@@ -1616,12 +1616,12 @@ var require_oidc_utils = __commonJS({
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
           const httpclient = _OidcClient.createHttpClient();
-          const res = yield httpclient.getJson(id_token_url).catch((error4) => {
+          const res = yield httpclient.getJson(id_token_url).catch((error5) => {
             throw new Error(`Failed to get ID Token. 
  
-        Error Code : ${error4.statusCode}
+        Error Code : ${error5.statusCode}
  
-        Error Message: ${error4.message}`);
+        Error Message: ${error5.message}`);
           });
           const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
           if (!id_token) {
@@ -1642,8 +1642,8 @@ var require_oidc_utils = __commonJS({
             const id_token = yield _OidcClient.getCall(id_token_url);
             core_1.setSecret(id_token);
             return id_token;
-          } catch (error4) {
-            throw new Error(`Error message: ${error4.message}`);
+          } catch (error5) {
+            throw new Error(`Error message: ${error5.message}`);
           }
         });
       }
@@ -2138,7 +2138,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports.setCommandEcho = setCommandEcho;
     function setFailed(message) {
       process.exitCode = ExitCode.Failure;
-      error4(message);
+      error5(message);
     }
     exports.setFailed = setFailed;
     function isDebug() {
@@ -2149,10 +2149,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("debug", {}, message);
     }
     exports.debug = debug;
-    function error4(message, properties = {}) {
+    function error5(message, properties = {}) {
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.error = error4;
+    exports.error = error5;
     function warning(message, properties = {}) {
       command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -3010,7 +3010,7 @@ var require_toolrunner = __commonJS({
               this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            state.on("done", (error4, exitCode) => {
+            state.on("done", (error5, exitCode) => {
               if (stdbuffer.length > 0) {
                 this.emit("stdline", stdbuffer);
               }
@@ -3018,8 +3018,8 @@ var require_toolrunner = __commonJS({
                 this.emit("errline", errbuffer);
               }
               cp.removeAllListeners();
-              if (error4) {
-                reject(error4);
+              if (error5) {
+                reject(error5);
               } else {
                 resolve(exitCode);
               }
@@ -3114,14 +3114,14 @@ var require_toolrunner = __commonJS({
         this.emit("debug", message);
       }
       _setResult() {
-        let error4;
+        let error5;
         if (this.processExited) {
           if (this.processError) {
-            error4 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            error5 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
           } else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
-            error4 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            error5 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
           } else if (this.processStderr && this.options.failOnStdErr) {
-            error4 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            error5 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
           }
         }
         if (this.timeout) {
@@ -3129,7 +3129,7 @@ var require_toolrunner = __commonJS({
           this.timeout = null;
         }
         this.done = true;
-        this.emit("done", error4, this.processExitCode);
+        this.emit("done", error5, this.processExitCode);
       }
       static HandleTimeout(state) {
         if (state.done) {
@@ -3444,8 +3444,8 @@ var require_add = __commonJS({
       }
       if (kind === "error") {
         hook = function(method, options) {
-          return Promise.resolve().then(method.bind(null, options)).catch(function(error4) {
-            return orig(error4, options);
+          return Promise.resolve().then(method.bind(null, options)).catch(function(error5) {
+            return orig(error5, options);
           });
         };
       }
@@ -4132,21 +4132,21 @@ var require_tr46 = __commonJS({
         label = punycode.toUnicode(label);
         processing_option = PROCESSING_OPTIONS.NONTRANSITIONAL;
       }
-      var error4 = false;
+      var error5 = false;
       if (normalize(label) !== label || label[3] === "-" && label[4] === "-" || label[0] === "-" || label[label.length - 1] === "-" || label.indexOf(".") !== -1 || label.search(combiningMarksRegex) === 0) {
-        error4 = true;
+        error5 = true;
       }
       var len = countSymbols(label);
       for (var i = 0; i < len; ++i) {
         var status = findStatus(label.codePointAt(i));
         if (processing === PROCESSING_OPTIONS.TRANSITIONAL && status[1] !== "valid" || processing === PROCESSING_OPTIONS.NONTRANSITIONAL && status[1] !== "valid" && status[1] !== "deviation") {
-          error4 = true;
+          error5 = true;
           break;
         }
       }
       return {
         label,
-        error: error4
+        error: error5
       };
     }
     function processing(domain_name, useSTD3, processing_option) {
@@ -5798,8 +5798,8 @@ var require_lib3 = __commonJS({
       this.timeout = timeout;
       if (body instanceof Stream) {
         body.on("error", function(err) {
-          const error4 = err.name === "AbortError" ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, "system", err);
-          _this[INTERNALS].error = error4;
+          const error5 = err.name === "AbortError" ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, "system", err);
+          _this[INTERNALS].error = error5;
         });
       }
     }
@@ -6644,14 +6644,14 @@ var require_lib3 = __commonJS({
         const signal = request.signal;
         let response = null;
         const abort = function abort2() {
-          let error4 = new AbortError("The user aborted a request.");
-          reject(error4);
+          let error5 = new AbortError("The user aborted a request.");
+          reject(error5);
           if (request.body && request.body instanceof Stream.Readable) {
-            destroyStream(request.body, error4);
+            destroyStream(request.body, error5);
           }
           if (!response || !response.body)
             return;
-          response.body.emit("error", error4);
+          response.body.emit("error", error5);
         };
         if (signal && signal.aborted) {
           abort();
@@ -7105,7 +7105,7 @@ var require_dist_node5 = __commonJS({
         }
         if (status >= 400) {
           const data = await getResponseData(response);
-          const error4 = new requestError.RequestError(toErrorMessage(data), status, {
+          const error5 = new requestError.RequestError(toErrorMessage(data), status, {
             response: {
               url,
               status,
@@ -7114,7 +7114,7 @@ var require_dist_node5 = __commonJS({
             },
             request: requestOptions
           });
-          throw error4;
+          throw error5;
         }
         return getResponseData(response);
       }).then((data) => {
@@ -7124,10 +7124,10 @@ var require_dist_node5 = __commonJS({
           headers,
           data
         };
-      }).catch((error4) => {
-        if (error4 instanceof requestError.RequestError)
-          throw error4;
-        throw new requestError.RequestError(error4.message, 500, {
+      }).catch((error5) => {
+        if (error5 instanceof requestError.RequestError)
+          throw error5;
+        throw new requestError.RequestError(error5.message, 500, {
           request: requestOptions
         });
       });
@@ -8640,9 +8640,9 @@ var require_dist_node10 = __commonJS({
               return {
                 value: normalizedResponse
               };
-            } catch (error4) {
-              if (error4.status !== 409)
-                throw error4;
+            } catch (error5) {
+              if (error5.status !== 409)
+                throw error5;
               url = "";
               return {
                 value: {
@@ -8953,9 +8953,9 @@ var require_main = __commonJS({
           const attrs = _instructions(result, key);
           decrypted = DotenvModule.decrypt(attrs.ciphertext, attrs.key);
           break;
-        } catch (error4) {
+        } catch (error5) {
           if (i + 1 >= length) {
-            throw error4;
+            throw error5;
           }
         }
       }
@@ -8983,11 +8983,11 @@ var require_main = __commonJS({
       let uri;
       try {
         uri = new URL(dotenvKey);
-      } catch (error4) {
-        if (error4.code === "ERR_INVALID_URL") {
+      } catch (error5) {
+        if (error5.code === "ERR_INVALID_URL") {
           throw new Error("INVALID_DOTENV_KEY: Wrong format. Must be in valid uri format like dotenv://:key_1234@dotenv.org/vault/.env.vault?environment=development");
         }
-        throw error4;
+        throw error5;
       }
       const key = uri.password;
       if (!key) {
@@ -9072,10 +9072,10 @@ var require_main = __commonJS({
         const aesgcm = crypto4.createDecipheriv("aes-256-gcm", key, nonce);
         aesgcm.setAuthTag(authTag);
         return `${aesgcm.update(ciphertext)}${aesgcm.final()}`;
-      } catch (error4) {
-        const isRange = error4 instanceof RangeError;
-        const invalidKeyLength = error4.message === "Invalid key length";
-        const decryptionFailed = error4.message === "Unsupported state or unable to authenticate data";
+      } catch (error5) {
+        const isRange = error5 instanceof RangeError;
+        const invalidKeyLength = error5.message === "Invalid key length";
+        const decryptionFailed = error5.message === "Unsupported state or unable to authenticate data";
         if (isRange || invalidKeyLength) {
           const msg = "INVALID_DOTENV_KEY: It must be 64 characters long (or more)";
           throw new Error(msg);
@@ -9083,9 +9083,9 @@ var require_main = __commonJS({
           const msg = "DECRYPTION_FAILED: Please check your DOTENV_KEY";
           throw new Error(msg);
         } else {
-          console.error("Error: ", error4.code);
-          console.error("Error: ", error4.message);
-          throw error4;
+          console.error("Error: ", error5.code);
+          console.error("Error: ", error5.message);
+          throw error5;
         }
       }
     }
@@ -9332,6 +9332,9 @@ var github = __toESM(require_github());
 var core4 = __toESM(require_core());
 var createOrUpdateMessage = async (prefix, body) => {
   const token = core4.getInput("token");
+  if (!token) {
+    core4.error("unable to write a comment, github token is not defined.");
+  }
   const octakit = github.getOctokit(token);
   octakit.rest.issues.listComments({
     ...github.context.issue,
@@ -9439,6 +9442,7 @@ var run = async () => {
   core5.info("running yfm-docs...");
   await buildDoc();
   const link2 = pr_default.pagesDeployLink();
+  core5.info(`Deployed to ${link2}`);
   pr_default.createOrUpdateMessage("Deployed to", `Deployed to ${link2}`);
 };
 
