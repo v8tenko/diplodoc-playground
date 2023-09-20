@@ -6,6 +6,8 @@ import navigation from '../navigation';
 export const createOrUpdateMessage = async (prefix: string, body: string) => {
     const token = core.getInput('token');
 
+    console.log(token);
+
     if (!token) {
       core.error('unable to write a comment, github token is not defined.')
     }

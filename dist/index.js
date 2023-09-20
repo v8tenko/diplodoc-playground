@@ -9332,6 +9332,7 @@ var github = __toESM(require_github());
 var core4 = __toESM(require_core());
 var createOrUpdateMessage = async (prefix, body) => {
   const token = core4.getInput("token");
+  console.log(token);
   if (!token) {
     core4.error("unable to write a comment, github token is not defined.");
   }
