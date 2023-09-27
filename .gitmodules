@@ -1,0 +1,12 @@
+[submodule "cli"]
+	path = cli
+	url = https://github.com/diplodoc-platform/cli.git
+[submodule "transform"]
+	path = transform
+	url = https://github.com/diplodoc-platform/transform.git
+[submodule "client"]
+	path = client
+	url = https://github.com/diplodoc-platform/client.git
+[submodule "openapi-extension"]
+	path = openapi-extension
+	url = https://github.com/diplodoc-platform/openapi-extension.git

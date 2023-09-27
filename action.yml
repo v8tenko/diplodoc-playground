@@ -1,0 +1,29 @@
+name: 'Diplodoc build action'
+description: 'Greet someone and record the time'
+inputs:
+  token:
+    description: 'GitHub token'
+    required: true
+  path: 
+    description: 'Path to doc to build'
+    required: false
+    default: 'sample'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 14
+    - run: echo "GH_TOKEN=${{inputs.token}}" > .env
+      shell: bash
+    - run: node 'dist/index.js'
+      shell: bash
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{inputs.token}}
+        destination_dir: ./${{github.sha}}
+        publish_dir: project-output
+        enable_jekyll: false
+        keep_files: true
+
